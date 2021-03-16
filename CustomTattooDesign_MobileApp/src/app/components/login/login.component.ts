@@ -12,12 +12,14 @@ export class LoginComponent implements OnInit {
   username : string = "";
   password : string = "";
 
-  errorMsg : string = "";
+  errorMsg : string = ""; // displayed to screen when login fails
 
   constructor(private loginAPIService : LoginAPIService, private router : Router) { }
 
   ngOnInit() {}
 
+
+  // Attempts a login API call when 'LOG IN' button is pressed
   login() {
     this.errorMsg = "";
 
@@ -26,25 +28,27 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    // calls API
     this.loginAPIService.authenticateLogin(this.username, this.password).then(
       data => { 
-        console.log(data); 
-        if (data) {
-          this.goLandingPage();
+        if (data["validUser"]) {
+          console.log(data);
+          this.goLandingPage(data);
         } else {
           this.errorMsg = "Incorrect Username or Password";
         }
       }
     ).catch(error => { 
-      // should be caught by front-end check
+      // add new errors here as they are created
       if (error == "Invalid user parameters...") {
-        console.log(error); 
+        this.errorMsg = error;
       }
     });
   }
 
-  goLandingPage() {
-    // eventually include user data in send
-    this.router.navigate(['landing-page']).then(nav => { }, err => { } );
+  // routes to landing page and sends the user data from the API call
+  goLandingPage(userData : Object) {
+    var sendData = { state: { user : userData } };
+    this.router.navigate(['landing-page'], sendData).then(nav => { }, err => { } );
   }
 }

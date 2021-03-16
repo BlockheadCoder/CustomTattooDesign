@@ -23,6 +23,10 @@ export class LoginAPIService {
       'password': sha256(pass)
     };
 
+    /* 
+     * Asynchronous method - makes an API call to backend
+     * response body (data) example : { sessionToken: "", validUser: true }
+     */
     await this.http.post(this.apiURL, this.bodyData).toPromise().then(data => {
       success = data;
     }).catch(error => {
@@ -35,7 +39,7 @@ export class LoginAPIService {
       if (err) {
         reject(errorMsg);
       } else {
-        resolve(success);
+        resolve(success); // send response body object
       }
    });
   }
