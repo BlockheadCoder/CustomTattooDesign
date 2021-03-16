@@ -1,4 +1,6 @@
+<br>
 <img src="../../../assets/logo.png" alt="Logo">
+<br>
 
 <ion-card>
   <ion-card-header>
@@ -7,17 +9,19 @@
   <ion-card-content>
     
     <span>Email</span>
-    <ion-input [(ngModel)]='username' ngDefaultControl></ion-input>
+    <ion-input [(ngModel)]='username' ngDefaultControl required></ion-input>
 
     <span>Password</span>
-    <ion-input [(ngModel)]='password' type='password' ngDefaultControl></ion-input>
+    <ion-input [(ngModel)]='password' type='password' required='true' ngDefaultControl></ion-input>
 
     <input type="checkbox"/> <span> Remember Me</span> <br>
+    
+    <ion-label color="danger" *ngIf="errorMsg != '' ">{{errorMsg}}</ion-label>
+    <br *ngIf="errorMsg != '' "><br>
 
     <ion-button (click)='login()'>LOG IN</ion-button> <br><br>
 
     <a href>Forgot your password?</a> <br>
     <a href>New? Request for a user</a>
-
   </ion-card-content>
 </ion-card>

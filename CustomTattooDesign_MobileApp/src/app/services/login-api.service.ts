@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { sha256 } from 'js-sha256';
 
 @Injectable({
   providedIn: 'root'
@@ -11,18 +12,31 @@ export class LoginAPIService {
 
   constructor(public http: HttpClient) { }
 
-  authenticateLogin(user : string, pass : string) {
+  async authenticateLogin(user : string, pass : string) {
 
-    //TODO - hash password
+    var success;
+    var err = false;
+    var errorMsg;
 
     this.bodyData = {
       'username': user,
-      'password': pass
+      'password': sha256(pass)
     };
-    return this.http.post(this.apiURL, this.bodyData).toPromise().then(data => {
-      console.log(data);
+
+    await this.http.post(this.apiURL, this.bodyData).toPromise().then(data => {
+      success = data;
     }).catch(error => {
-      console.log(error)
+      errorMsg = error.error.message;
+      err = true;
+      success = false;
     });
+
+    return new Promise(function(resolve, reject) {
+      if (err) {
+        reject(errorMsg);
+      } else {
+        resolve(success);
+      }
+   });
   }
 }
