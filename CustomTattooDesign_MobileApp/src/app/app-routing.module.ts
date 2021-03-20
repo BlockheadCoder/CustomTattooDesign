@@ -3,8 +3,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    path: 'artist-login',
+    loadChildren: () => import('./pages/artist-login/artist-login').then( m => m.ArtistLoginPageModule)
   },
   {
     path: '',
@@ -12,8 +12,12 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'landing-page',
-    loadChildren: () => import('./landing-page/landing-page.module').then( m => m.LandingPagePageModule)
+    path: 'artist-landing',
+    loadChildren: () => import('./pages/artist-landing/artist-landing.module').then( m => m.LandingPagePageModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
   },
 ];
 
