@@ -4,19 +4,19 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ArtistLandingPageRoutingModule } from './artist-landing-routing.module';
+import { UnclaimedJobsPageRoutingModule } from './unclaimed-jobs-routing.module';
 import { ComponentsModule } from '../../components/components.module';
 
-import { ArtistLandingPage } from './artist-landing.page';
+import { UnclaimedJobsPage } from './unclaimed-jobs.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ArtistLandingPageRoutingModule,
+    UnclaimedJobsPageRoutingModule,
     ComponentsModule
   ],
-  declarations: [ArtistLandingPage]
+  declarations: [UnclaimedJobsPage]
 })
-export class LandingPagePageModule {}
+export class UnclaimedJobsPageModule {}
