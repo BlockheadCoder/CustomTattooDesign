@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { HomePage } from './home.page';
+import { ArtistLoginPage } from './artist-login.page';
 
-import { HomePageRoutingModule } from './home-routing.module';
-import { ComponentsModule } from '../components/components.module';
+import { HomePageRoutingModule } from './artist-login-routing.module';
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   imports: [
@@ -15,6 +15,6 @@ import { ComponentsModule } from '../components/components.module';
     HomePageRoutingModule,
     ComponentsModule
   ],
-  declarations: [HomePage]
+  declarations: [ArtistLoginPage]
 })
-export class HomePageModule {}
+export class ArtistLoginPageModule {}

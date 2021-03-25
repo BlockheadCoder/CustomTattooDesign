@@ -49,6 +49,6 @@ export class LoginComponent implements OnInit {
   // routes to landing page and sends the user data from the API call
   goLandingPage(userData : Object) {
     var sendData = { state: { user : userData } };
-    this.router.navigate(['landing-page'], sendData).then(nav => { }, err => { } );
+    this.router.navigate(['artist-landing'], sendData).then(nav => { }, err => { } );
   }
 }
