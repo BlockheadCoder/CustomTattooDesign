@@ -78,16 +78,6 @@ INSERT INTO user_profiles
 -- DROP TABLE public.jobs;
 
 
-
-CREATE TABLE IF NOT EXISTS jobs
-(
-    id SERIAL,
-    title VARCHAR NOT NULL,
-    description VARCHAR NOT NULL,
-    tattoo_position VARCHAR NOT NULL,
-    price VARC
-);
-
 CREATE TABLE IF NOT EXISTS user_profiles (
     id SERIAL,
     user_id int NOT NULL,
