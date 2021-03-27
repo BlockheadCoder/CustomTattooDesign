@@ -182,3 +182,148 @@ VALUES
 (2584,'qvXHIdHoaAccEFsjP','qNlrqovqX','Upper Arm',930.682811964772,448.8679432730881,'paid',2,'2021-11-01 08:08:51',33,'2021-05-04 09:42:27','2021-10-19 21:02:10',true,'1RrcF72otJbXCCS',4,'2021-01-01 23:52:41','2021-02-17 06:55:42','2021-01-09 08:23:11','2021-01-20 22:14:50','2021-07-01 20:22:34','2021-11-04 00:24:00','2021-05-15 12:11:51','2021-11-17 05:12:04','2021-03-03 10:57:31','Colleen Randall','bLTzqzEzKADuFjMEJUAH@eRtKXBoHisRDSLlKKp.ca',4939007314,37,'Japanese','Extra Large',true,'2021-12-19 18:49:42','2021-05-06 15:09:47'),
 (907,'LfOpARvMQYvLmrl','rRwkUVEJHyuRKeJIxyL','Full Sleeve',156.28442128496644,462.8432030056835,'phase_one',8,'2021-06-18 13:48:24',14,'2021-02-16 05:34:49','2021-09-06 00:53:15',true,'s3G5P5b9U0WoAg',2,'2021-11-14 00:51:02','2021-08-07 14:36:26','2021-08-03 22:28:59','2021-03-02 05:09:03','2021-10-19 18:23:17','2021-11-11 01:30:22','2021-01-02 18:09:32','2021-04-11 23:06:13','2021-06-11 21:42:20','Emily Summerville','lEURdMgCAX@TNfNVIMrqFpheNSsC.ca',2911217788,0,'Realistic','Half Sleeve',true,'2021-01-01 02:41:49','2021-06-15 11:05:07'),
 (6794,'GpKKDrSPh','QWhAbWCGKxyPTKvUp','Chest',424.9297136327043,815.8770657511529,'draft',15,'2021-05-20 10:19:55',46,'2021-01-15 08:54:01','2021-12-03 07:25:44',true,'g3eD7RJblQLrHpUSLQR73jJPCg',3,'2021-05-06 09:40:04','2021-09-04 08:01:32','2021-02-09 05:39:49','2021-06-02 15:06:47','2021-12-16 13:38:08','2021-11-20 04:18:35','2021-01-02 13:15:49','2021-08-09 16:41:08','2021-02-09 12:53:47','Dane Alloway','uZiyMWqYqy@bAUBaEBIkLKS.net',3048005497,16,'Custom Script','Extra Small',false,'2021-11-12 15:13:14','2021-06-20 00:37:14');
+
+
+
+-- Sprint 2. Validate tokens
+
+CREATE OR REPLACE FUNCTION valid_token(_email varchar, _tokn varchar) 
+	RETURNS BOOLEAN
+	AS
+    $$
+	DECLARE
+		validTimestamp boolean default FALSE;
+	BEGIN		
+		validTimestamp := (
+			SELECT COUNT(users.id) 
+			FROM users, session_tokens 
+			WHERE expires_date >= CURRENT_TIMESTAMP 
+			AND users.email = _email
+			AND session_tokens.session_token = _tokn
+			AND users.id = session_tokens.id
+			) = 1;
+			
+		if not validTimestamp then
+ 			DELETE FROM session_tokens WHERE session_token = _tokn; 
+		else
+			
+		end if;
+		return validTimestamp;
+		
+	END
+	$$ LANGUAGE 'plpgsql';
+
+    
+
+-- Trigger for setting session expirys
+
+
+CREATE OR REPLACE FUNCTION set_session_expiry()
+	RETURNS trigger AS
+$$
+BEGIN
+	new.expires_date = CURRENT_TIMESTAMP + interval '30' day;
+	return new;
+END;
+$$
+LANGUAGE 'plpgsql';
+
+CREATE TRIGGER session_trigger 
+	BEFORE UPDATE OR INSERT ON "session_tokens"
+		FOR EACH ROW
+		EXECUTE PROCEDURE set_session_expiry();
+
+
+
+
+
+
+
+
+-- Get jobs for an artist based off token and email
+
+CREATE OR REPLACE FUNCTION get_artist_jobs(_email varchar, _tokn varchar) 
+	RETURNS TABLE(
+		id INTEGER,
+		state VARCHAR,
+		tile VARCHAR,
+		customer VARCHAR,
+		tattoo_position VARCHAR,
+		size VARCHAR,
+		style VARCHAR,
+		color boolean,
+		commission NUMERIC,
+		description VARCHAR
+	)
+	as
+    $BODY$
+	BEGIN		
+			
+		if valid_token(_email,_tokn) then
+		 	return QUERY 
+				select 
+					jobs.id,
+					jobs.state,
+					jobs.title,
+					jobs.customer,
+					jobs.tattoo_position,
+					jobs.size,
+					jobs.style,
+					jobs.color,
+					jobs.commission,
+					jobs.description
+				from 
+					jobs, users
+				WHERE 
+					jobs.user_id = users.id AND
+					users.email = _email;
+		else
+			RAISE 'Not Authorized';
+		end if;
+
+	END
+	$BODY$ 
+	LANGUAGE 'plpgsql';
+	
+
+
+-- Getting artist info
+
+CREATE OR REPLACE FUNCTION get_artist_info(_email varchar, _tokn varchar) 
+	RETURNS TABLE(
+		first_name VARCHAR,
+    	last_name VARCHAR,
+		role VARCHAR,
+		paypal_email VARCHAR,
+		override_job_limit int,
+		max_job_value integer,
+		average_time_to_completion double precision,
+    	average_time_to_introduction double precision
+	)
+	as
+    $BODY$
+	BEGIN		
+			
+		if valid_token(_email,_tokn) then
+		 	return QUERY 
+				select 
+					user_profiles.first_name,
+					user_profiles.last_name,
+					users.role,
+					user_profiles.paypal_email,
+					users.override_job_limit,
+					users.max_job_value,
+					users.average_time_to_completion,
+					users.average_time_to_introduction
+				from 
+					users, user_profiles
+				WHERE 
+					user_profiles.user_id = users.id AND
+					users.email = _email;
+		else
+			RAISE 'Not Authorized';
+		end if;
+
+	END
+	$BODY$ 
+	LANGUAGE 'plpgsql';
