@@ -1,11 +1,26 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Unclaimed Jobs</ion-title>
+    <ion-title>claimed-jobs</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+  <ion-segment>
+    <ion-segment-button value="inProgress">
+      <ion-label>In Progress</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="approved">
+      <ion-label>Approved</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="compleated">
+      <ion-label>Compleated</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div>
   <ion-card>
     <ion-card-header>
       <ion-button fill="outline" style="float: right">View</ion-button>
@@ -28,9 +43,10 @@
       </ion-item>
 
       <ion-item color="none">
-        <ion-label>Status: Needs Designer</ion-label>
+        <ion-label>Staus: In Progress</ion-label>
       </ion-item> <br>
     </ion-card-content>
   </ion-card>
+</div>
 
 </ion-content>

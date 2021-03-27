@@ -22,6 +22,10 @@ const routes: Routes = [
     path: 'unclaimed-jobs',
     loadChildren: () => import('./pages/unclaimed-jobs/unclaimed-jobs.module').then( m => m.UnclaimedJobsPageModule)
   },
+  {
+    path: 'claimed-jobs',
+    loadChildren: () => import('./pages/claimed-jobs/claimed-jobs.module').then( m => m.ClaimedJobsPageModule)
+  },
 
 ];
 
