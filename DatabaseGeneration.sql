@@ -328,3 +328,55 @@ CREATE OR REPLACE FUNCTION get_artist_info(_email varchar, _tokn varchar)
 	END
 	$BODY$ 
 	LANGUAGE 'plpgsql';
+
+
+
+
+
+
+
+CREATE OR REPLACE FUNCTION insert_update_token(_email varchar, _tokn varchar) 
+	RETURNS boolean
+	as
+    $BODY$
+	DECLARE
+		token_exists boolean default FALSE;
+		_user_id integer;
+	BEGIN		
+	
+		token_exists := (
+			SELECT COUNT(users.id) 
+			FROM users 
+            LEFT OUTER JOIN session_tokens ON (users.id = session_tokens.user_id) 
+			WHERE users.email = _email
+			AND session_tokens.session_token = _tokn
+			) > 0;
+			
+		_user_id := (
+				SELECT users.id
+				FROM users
+				WHERE users.email = _email
+			);
+
+		if not token_exists then
+			
+			
+			
+			
+ 			INSERT INTO 
+				session_tokens (session_token, user_id)
+				VALUES (_tokn, _user_id);
+				
+			token_exists = TRUE;
+		else
+			UPDATE session_tokens
+				SET 
+					session_token = _tokn,
+					expires_date = CURRENT_TIMESTAMP + interval '30' day 
+				WHERE user_id = _user_id;
+			
+		end if;
+		return token_exists;
+	END
+	$BODY$ 
+	LANGUAGE 'plpgsql';
