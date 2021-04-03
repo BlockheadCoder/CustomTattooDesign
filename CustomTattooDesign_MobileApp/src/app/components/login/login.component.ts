@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage-angular';
+import { Artist } from '../../model/artist';
+
 import { LoginAPIService } from 'src/app/services/login-api.service';
 
 @Component({
@@ -14,9 +17,13 @@ export class LoginComponent implements OnInit {
 
   errorMsg : string = ""; // displayed to screen when login fails
 
-  constructor(private loginAPIService : LoginAPIService, private router : Router) { }
+  constructor(private loginAPIService : LoginAPIService, 
+              private router : Router,
+              private storage: Storage) { }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    await this.storage.create();
+  }
 
 
   // Attempts a login API call when 'LOG IN' button is pressed
@@ -29,11 +36,12 @@ export class LoginComponent implements OnInit {
     }
 
     // calls API
-    this.loginAPIService.authenticateLogin(this.username, this.password).then(
+    this.loginAPIService.login(this.username, this.password).then(
       data => { 
         if (data["validUser"]) {
-          console.log(data);
-          this.goLandingPage(data);
+          var artist : Artist = this.createArtist(data);
+          this.storage.set("ARTIST", artist);
+          this.goLandingPage();
         } else {
           this.errorMsg = "Incorrect Username or Password";
         }
@@ -47,8 +55,25 @@ export class LoginComponent implements OnInit {
   }
 
   // routes to landing page and sends the user data from the API call
-  goLandingPage(userData : Object) {
-    var sendData = { state: { user : userData } };
-    this.router.navigate(['artist-landing'], sendData).then(nav => { }, err => { } );
+  goLandingPage() {
+    //var sendData = { state: { user : userData } };
+    this.router.navigate(['artist-landing']);
+  }
+
+  createArtist(userData : Object) : Artist {
+    var artist : Artist = {
+      "id" : 15,
+      "username" : this.username,
+      "sessionToken" : userData["sessionToken"],
+      "firstName" : userData["firstName"],
+      "lastName" : userData["lastName"],
+      "role" : userData["role"],
+      "paypalEmail" : userData["paypalEmail"],
+      "overrideJobLimit" : userData["overrideJobLimit"],
+      "maxJobValue" : userData["maxJobValue"],
+      "averageTimeToCompletion" : userData["averageTimeToCompletion"],
+      "averageTimeToIntroduction" : userData["averageTimeToIntroduction"]
+    }
+    return artist;
   }
 }
