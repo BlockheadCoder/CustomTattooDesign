@@ -25,7 +25,11 @@ const routes: Routes = [
     path: 'unclaimed-jobs',
     canActivate: [AuthGuardService],
     loadChildren: () => import('./pages/unclaimed-jobs/unclaimed-jobs.module').then( m => m.UnclaimedJobsPageModule)
+  },  {
+    path: 'claimed-jobs',
+    loadChildren: () => import('./pages/claimed-jobs/claimed-jobs.module').then( m => m.ClaimedJobsPageModule)
   },
+
 
 ];
 

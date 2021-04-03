@@ -10,7 +10,6 @@ import { Artist } from '../../model/artist';
 })
 export class ArtistLandingPage implements OnInit {
 
-  userData;
   artist : Artist = {
     "id" : 0,
     "username" : "",

@@ -1,0 +1,134 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>claimed-jobs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-segment [(ngModel)]="segmentValue">
+    <ion-segment-button value="inProgress" selected>
+      <ion-label>In Progress</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="approved">
+      <ion-label>Approved</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="completed">
+      <ion-label>Completed</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div *ngIf="segmentValue == 'inProgress'">
+    <ion-card *ngIf="inProgressJobs.length == 0" class="ion-text-center">
+      <ion-card-header>
+        <ion-card-title>You currently have no In Progress jobs</ion-card-title><br>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label>Please Check Back Later</ion-label>
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-card *ngFor="let job of inProgressJobs">
+      <ion-card-header>
+        <ion-button fill="outline" style="float: right">View</ion-button>
+        <ion-card-subtitle>Job #{{job.jobId}}</ion-card-subtitle>
+        <ion-card-title>{{job.title}}</ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+        <ion-label>
+          {{job.description}}
+        </ion-label> <br><br>
+  
+        <ion-item color="none">
+          <ion-label>Customer: {{job.customerName}}</ion-label>
+        </ion-item>
+  
+        <ion-item color="none">
+          <ion-label>Commission: ${{job.commission}}</ion-label>
+        </ion-item>
+    
+        <ion-item color="none">
+          <ion-label>Status: {{job.status}}</ion-label>
+        </ion-item> <br>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="segmentValue == 'approved'">
+    <ion-card *ngIf="approvedJobs.length == 0" class="ion-text-center">
+      <ion-card-header>
+        <ion-card-title>You currently have no Approved jobs</ion-card-title><br>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label>Please Check Back Later</ion-label>
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-card *ngFor="let job of approvedJobs">
+      <ion-card-header>
+        <ion-button fill="outline" style="float: right">View</ion-button>
+        <ion-card-subtitle>Job #{{job.jobId}}</ion-card-subtitle>
+        <ion-card-title>{{job.title}}</ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+        <ion-label>
+          {{job.description}}
+        </ion-label> <br><br>
+  
+        <ion-item color="none">
+          <ion-label>Customer: {{job.customerName}}</ion-label>
+        </ion-item>
+  
+        <ion-item color="none">
+          <ion-label>Commission: ${{job.commission}}</ion-label>
+        </ion-item>
+    
+        <ion-item color="none">
+          <ion-label>Status: {{job.status}}</ion-label>
+        </ion-item> <br>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="segmentValue == 'completed'">
+    <ion-card *ngIf="completedJobs.length == 0" class="ion-text-center">
+      <ion-card-header>
+        <ion-card-title>You currently have no Completed jobs</ion-card-title><br>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label>Please Check Back Later</ion-label>
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-card *ngFor="let job of completedJobs">
+      <ion-card-header>
+        <ion-button fill="outline" style="float: right">View</ion-button>
+        <ion-card-subtitle>Job #{{job.jobId}}</ion-card-subtitle>
+        <ion-card-title>{{job.title}}</ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+        <ion-label>
+          {{job.description}}
+        </ion-label> <br><br>
+  
+        <ion-item color="none">
+          <ion-label>Customer: {{job.customerName}}</ion-label>
+        </ion-item>
+  
+        <ion-item color="none">
+          <ion-label>Commission: ${{job.commission}}</ion-label>
+        </ion-item>
+    
+        <ion-item color="none">
+          <ion-label>Status: {{job.status}}</ion-label>
+        </ion-item> <br>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>
