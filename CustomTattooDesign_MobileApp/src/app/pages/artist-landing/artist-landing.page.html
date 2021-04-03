@@ -8,6 +8,58 @@
 
   <ion-button expand="block" (click)="goUnclaimed()">Unclaimed Jobs</ion-button> <br>
   <ion-button expand="block">Your Jobs</ion-button> <br>
-  <app-logout></app-logout>
+  
+  <ion-card color="success">
+    <ion-card-header> 
+      <ion-card-title>Last 30 Days</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item color="none">
+        <ion-label>Jobs Taken: 3</ion-label>
+      </ion-item>
+
+      <ion-item color="none">
+        <ion-label>Refunds: 1</ion-label>
+      </ion-item> <br>
+    </ion-card-content>
+  </ion-card> <br>
+
+  <ion-card color="success">
+    <ion-card-header> 
+      <ion-card-title>Current Job Limit</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-label>You are approved to have {{artist.maxJobValue}} active jobs.</ion-label>
+    </ion-card-content>
+  </ion-card> <br>
+
+  <ion-card color="success">
+    <ion-card-header> 
+      <ion-card-title>Alert Messages</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-label>Not implemented yet</ion-label>
+    </ion-card-content>
+  </ion-card> <br>
+  
+  <ion-card color="success">
+    <ion-card-header> 
+      <ion-card-title>Lifetime</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item color="none">
+        <ion-label>Jobs Taken: 12</ion-label>
+      </ion-item>
+
+      <ion-item color="none">
+        <ion-label>Earnings: $440.00</ion-label>
+      </ion-item>
+
+      <ion-item color="none">
+        <ion-label>Refunds: 3</ion-label>
+      </ion-item> <br>
+    </ion-card-content>
+  </ion-card>
+  <!-- <app-logout></app-logout> -->
 
 </ion-content>

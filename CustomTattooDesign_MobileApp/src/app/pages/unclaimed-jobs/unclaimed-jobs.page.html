@@ -1,18 +1,20 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Unclaimed Jobs</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="Back"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
   <ion-card *ngIf="unclaimedJobs.length == 0" class="ion-text-center">
-  <ion-card-header>
-    <ion-card-title >There Are Currently No Available Jobs</ion-card-title><br>
-  </ion-card-header>
-  <ion-card-content>
-    <ion-label>Please Check Back Later</ion-label>
-  </ion-card-content>
+    <ion-card-header>
+      <ion-card-title >There Are Currently No Available Jobs</ion-card-title><br>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-label>Please Check Back Later</ion-label>
+    </ion-card-content>
   </ion-card>
 
   <ion-card *ngFor="let job of unclaimedJobs">
