@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
+
 import { Artist } from '../../model/artist';
 
 @Component({
@@ -21,7 +22,16 @@ export class ArtistLandingPage implements OnInit {
     "overrideJobLimit" : 0,
     "maxJobValue" : 0,
     "averageTimeToCompletion" : 0,
-    "averageTimeToIntroduction" : 0
+    "averageTimeToIntroduction" : 0,
+    "last30Days" : {
+      "refunds": 0,
+      "jobsTaken": 0
+    },
+    "lifetime" : {
+      "refunds": 0,
+      "jobsTaken": 0,
+      "earnings": 0.00
+    }
   };
 
   constructor(private router : Router, private storage : Storage) { }
@@ -34,5 +44,9 @@ export class ArtistLandingPage implements OnInit {
 
   goUnclaimed() {
     this.router.navigateByUrl("/unclaimed-jobs");
+  }
+
+  goClaimed() {
+    this.router.navigateByUrl("/claimed-jobs");
   }
 }

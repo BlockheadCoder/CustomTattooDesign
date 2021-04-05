@@ -1,62 +1,64 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Job Details</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="Back"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col id="title">{{job.title}}</ion-col>
+    </ion-row>
 
-<ion-grid>
-  <ion-row>
-    <ion-col id="title">Name</ion-col>
-  </ion-row>
+    <ion-row>
+      <ion-col id="subtitle">for {{job.customerName}}</ion-col>
+    </ion-row> <br>
 
-  <ion-row>
-    <ion-col id="subtitle">for Customer</ion-col>
-  </ion-row> <br>
+    <ion-row>
+      <ion-col>Tattoo Type</ion-col>
+      <ion-col>Commission</ion-col>
+    </ion-row>
 
-  <ion-row>
-    <ion-col>Tattoo Type</ion-col>
-    <ion-col>Commission</ion-col>
-  </ion-row>
+    <ion-row>
+      <ion-col class="value">{{job.tattooType}}</ion-col>
+      <ion-col class="value">${{job.commission}}</ion-col>
+    </ion-row> <br>
 
-  <ion-row>
-    <ion-col class="value">XXX - Tattoo Type</ion-col>
-    <ion-col class="value">XXX - Commission</ion-col>
-  </ion-row> <br>
+    <ion-row>
+      <ion-col>Tattoo Style</ion-col>
+      <ion-col>Status</ion-col>
+    </ion-row>
 
-  <ion-row>
-    <ion-col>Tattoo Style</ion-col>
-    <ion-col>Staus</ion-col>
-  </ion-row>
+    <ion-row>
+      <ion-col class="value">{{job.tattooStyle}}</ion-col>
+      <ion-col class="value">{{job.status}}</ion-col>
+    </ion-row> <br>
 
-  <ion-row>
-    <ion-col class="value">XXX - Tattoo Style</ion-col>
-    <ion-col class="value">XXX - Status</ion-col>
-  </ion-row> <br>
+    <ion-row>
+      <ion-col>Has Color</ion-col>
+    </ion-row>
 
-  <ion-row>
-    <ion-col>Has Color</ion-col>
-  </ion-row>
+    <ion-row>
+      <ion-col class="value" *ngIf="job.color">Yes</ion-col>
+      <ion-col class="value" *ngIf="!job.color">No</ion-col>
+    </ion-row>
 
-  <ion-row>
-    <ion-col class="value">XXX - Has Color</ion-col>
-  </ion-row>
+    <hr color="white">
 
-  <hr color="white">
+    <ion-row>
+      <ion-col>Instructions</ion-col>
+    </ion-row>
+    
+    <ion-row>
+      <ion-col class="value">{{job.description}}</ion-col>
+    </ion-row>
+    <ion-button>Image</ion-button>
 
-  <ion-row>
-    <ion-col>Instructions</ion-col>
-  </ion-row>
-  
-  <ion-row>
-    <ion-col class="value">XXX - Instructions</ion-col>
-  </ion-row>
-  <ion-button>Image</ion-button>
+    <hr color="white">
+  </ion-grid>
 
-  <hr color="white">
-</ion-grid>
-
-<ion-button style="float: right">Claim</ion-button>
-
+  <ion-button *ngIf="job.status == 'Needs Designer'" style="float: right" (click)="claimJob(job)">Claim</ion-button>
 </ion-content>

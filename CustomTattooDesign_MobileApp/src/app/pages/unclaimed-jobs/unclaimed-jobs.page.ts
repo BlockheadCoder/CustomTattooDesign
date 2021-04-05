@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Storage } from '@ionic/storage';
+import { NavigationExtras, Router } from '@angular/router';
+import { Storage } from '@ionic/storage-angular';
 import { Job } from 'src/app/model/job';
 import { ArtistApiService } from 'src/app/services/artist-api.service';
 
@@ -12,14 +13,14 @@ export class UnclaimedJobsPage implements OnInit {
 
   unclaimedJobs : Job[] = [];
   tempJob : Job;
+  sendData : NavigationExtras;
 
-  constructor(private artistService : ArtistApiService, private storage : Storage) { }
+  constructor(private artistService : ArtistApiService, 
+              private storage : Storage,
+              private router : Router ) { }
 
   ngOnInit() {
     this.getUnclaimedJobs();
-    this.storage.get("ARTIST").then(artist =>
-      this.artistService.getArtistJobs(artist)
-    )
   }
 
   getUnclaimedJobs() {
@@ -49,5 +50,13 @@ export class UnclaimedJobsPage implements OnInit {
         console.log(err)
       }
     );  
+  }
+
+  viewJobDetails(job) {
+    this.sendData = { state: { job : job } };
+
+    this.router.navigate(['job-details'], this.sendData).catch(err => 
+      console.log(err)
+    );
   }
 }

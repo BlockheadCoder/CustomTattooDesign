@@ -15,7 +15,7 @@ const routes: Routes = [
   {
     path: 'artist-landing',
     canActivate: [AuthGuardService],
-    loadChildren: () => import('./pages/artist-landing/artist-landing.module').then( m => m.LandingPagePageModule)
+    loadChildren: () => import('./pages/artist-landing/artist-landing.module').then( m => m.ArtistLandingPageModule)
   },
   {
     path: 'home',
@@ -28,14 +28,14 @@ const routes: Routes = [
   },
   {
     path: 'claimed-jobs',
+    canActivate: [AuthGuardService],
     loadChildren: () => import('./pages/claimed-jobs/claimed-jobs.module').then( m => m.ClaimedJobsPageModule)
   },
   {
     path: 'job-details',
+    canActivate: [AuthGuardService],
     loadChildren: () => import('./pages/job-details/job-details.module').then( m => m.JobDetailsPageModule)
-  },
-
-
+  }
 ];
 
 @NgModule({

@@ -7,7 +7,7 @@
 <ion-content>
 
   <ion-button expand="block" (click)="goUnclaimed()">Unclaimed Jobs</ion-button> <br>
-  <ion-button expand="block">Your Jobs</ion-button> <br>
+  <ion-button expand="block" (click)="goClaimed()">Your Jobs</ion-button> <br>
   
   <ion-card color="success">
     <ion-card-header> 
@@ -15,11 +15,11 @@
     </ion-card-header>
     <ion-card-content>
       <ion-item color="none">
-        <ion-label>Jobs Taken: 3</ion-label>
+        <ion-label>Jobs Taken: {{artist.last30Days.jobsTaken}}</ion-label>
       </ion-item>
 
       <ion-item color="none">
-        <ion-label>Refunds: 1</ion-label>
+        <ion-label>Refunds: {{artist.last30Days.refunds}}</ion-label>
       </ion-item> <br>
     </ion-card-content>
   </ion-card> <br>
@@ -48,15 +48,15 @@
     </ion-card-header>
     <ion-card-content>
       <ion-item color="none">
-        <ion-label>Jobs Taken: 12</ion-label>
+        <ion-label>Jobs Taken: {{artist.lifetime.refunds}}</ion-label>
       </ion-item>
 
       <ion-item color="none">
-        <ion-label>Earnings: $440.00</ion-label>
+        <ion-label>Earnings: ${{artist.lifetime.earnings}}</ion-label>
       </ion-item>
 
       <ion-item color="none">
-        <ion-label>Refunds: 3</ion-label>
+        <ion-label>Refunds: {{artist.lifetime.refunds}}</ion-label>
       </ion-item> <br>
     </ion-card-content>
   </ion-card>
