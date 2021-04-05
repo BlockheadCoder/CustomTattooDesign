@@ -9,6 +9,7 @@ export class ArtistApiService {
 
   private getUnclaimedURL = "http://142.55.32.86:50201/api/fetchUnclaimedJobs";
   private getArtistJobsURL = "http://142.55.32.86:50201/api/fetchArtistJobs";
+  private claimJobURL = "http://142.55.32.86:50201/api/claimJob";
 
   constructor(private http: HttpClient) { }
 
@@ -40,7 +41,7 @@ export class ArtistApiService {
   /* 
    * Returns a promise object containing an array of the artist's jobs from an API call
    */
-  async getArtistJobs(artist : Artist) {
+  async getClaimedJobs(artist : Artist) {
 
     var jobs;
 
@@ -53,10 +54,6 @@ export class ArtistApiService {
       "sessionToken": artist.sessionToken
     }
 
-    console.log(requestBody);
-
-    // uncomment when API goes live
-    /* 
     await this.http.post(this.getArtistJobsURL, requestBody).toPromise().then(data => {
       jobs = data;
     }).catch(error => {
@@ -71,6 +68,38 @@ export class ArtistApiService {
         resolve(jobs);
       }
     });
-    */
+  }
+
+  /* 
+   * Returns a promise object holding a boolean representing whether the job claim was successful or not
+   */
+  async claimJob(artist : Artist, jobId : number) {
+
+    var success;
+
+    var err = false;
+    var errorMsg = "";
+
+    var requestBody = {
+      "id": artist.id,
+      "username": artist.username,
+      "sessionToken": artist.sessionToken,
+      "jobId": jobId
+    }
+
+    await this.http.post(this.claimJobURL, requestBody).toPromise().then(data => {
+      success = data;
+    }).catch(error => {
+      errorMsg = error.error.message;
+      err = true;
+    });
+
+    return new Promise(function(resolve, reject) {
+      if (err) {
+        reject(errorMsg);
+      } else {
+        resolve(success);
+      }
+    });
   }
 }

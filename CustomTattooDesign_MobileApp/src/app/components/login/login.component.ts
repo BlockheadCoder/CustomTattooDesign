@@ -72,7 +72,16 @@ export class LoginComponent implements OnInit {
       "overrideJobLimit" : userData["overrideJobLimit"],
       "maxJobValue" : userData["maxJobValue"],
       "averageTimeToCompletion" : userData["averageTimeToCompletion"],
-      "averageTimeToIntroduction" : userData["averageTimeToIntroduction"]
+      "averageTimeToIntroduction" : userData["averageTimeToIntroduction"],
+      "last30Days" : {
+        "refunds": userData["refundsLast30Days"],
+        "jobsTaken": userData["jobsTakenLast30Days"]
+      },
+      "lifetime" : {
+        "refunds": userData["refundsLifetime"],
+        "jobsTaken": userData["jobsTakenLifetime"],
+        "earnings": (Math.round(userData["earningsLifetime"] * 100) / 100)
+      }
     }
     return artist;
   }

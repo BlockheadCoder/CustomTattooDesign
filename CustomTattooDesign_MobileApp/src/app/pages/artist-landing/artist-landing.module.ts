@@ -19,4 +19,4 @@ import { ArtistLandingPage } from './artist-landing.page';
   ],
   declarations: [ArtistLandingPage]
 })
-export class LandingPagePageModule {}
+export class ArtistLandingPageModule {}

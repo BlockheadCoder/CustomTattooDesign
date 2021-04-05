@@ -10,4 +10,13 @@ export interface Artist {
     maxJobValue : number;
     averageTimeToCompletion : number;
     averageTimeToIntroduction : number;
+    last30Days : {
+        refunds: number;
+        jobsTaken: number;
+    };
+    lifetime: {
+        refunds: number;
+        jobsTaken: number;
+        earnings: number;
+    };
 }

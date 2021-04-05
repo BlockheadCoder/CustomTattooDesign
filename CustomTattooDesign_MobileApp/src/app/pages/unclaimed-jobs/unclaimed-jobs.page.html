@@ -19,7 +19,7 @@
 
   <ion-card *ngFor="let job of unclaimedJobs">
     <ion-card-header>
-      <ion-button fill="outline" style="float: right">View</ion-button>
+      <ion-button fill="outline" style="float: right" (click)="viewJobDetails(job)">View</ion-button>
       <ion-card-subtitle>Job #{{job.jobId}}</ion-card-subtitle>
       <ion-card-title>{{job.title}}</ion-card-title>
     </ion-card-header>
