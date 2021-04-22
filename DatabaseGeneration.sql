@@ -291,6 +291,7 @@ CREATE OR REPLACE FUNCTION get_artist_jobs(_email varchar, _tokn varchar)
 
 CREATE OR REPLACE FUNCTION get_artist_info(_email varchar, _tokn varchar) 
 	RETURNS TABLE(
+        user_id integer,
 		first_name VARCHAR,
     	last_name VARCHAR,
 		role VARCHAR,
@@ -298,7 +299,13 @@ CREATE OR REPLACE FUNCTION get_artist_info(_email varchar, _tokn varchar)
 		override_job_limit int,
 		max_job_value integer,
 		average_time_to_completion double precision,
-    	average_time_to_introduction double precision
+    	average_time_to_introduction double precision,
+        jobs_taken_last_30_days integer,
+        jobs_taken_lifetime integer,
+        refunds_last_30_days integer,
+        refunds_lifetime integer,
+        earnings_lifetime numeric
+
 	)
 	as
     $BODY$
@@ -307,17 +314,64 @@ CREATE OR REPLACE FUNCTION get_artist_info(_email varchar, _tokn varchar)
 		if valid_token(_email,_tokn) then
 		 	return QUERY 
 				select 
-					user_profiles.first_name,
+                    users.id,
+                    user_profiles.first_name,
 					user_profiles.last_name,
 					users.role,
 					user_profiles.paypal_email,
 					users.override_job_limit,
 					users.max_job_value,
 					users.average_time_to_completion,
-					users.average_time_to_introduction
-				from 
-					users
-                    LEFT OUTER JOIN user_profiles ON (users.id = user_profiles.user_id)
+					users.average_time_to_introduction,
+                    i.jobs_taken_last_30_days::integer,
+                    j.jobs_taken_lifetime::integer,
+                    k.refunds_last_30_days::integer,
+                    l.refunds_lifetime::integer,
+                    m.earnings_lifetime
+                from users
+                    LEFT JOIN user_profiles ON (users.id = user_profiles.user_id)
+                    
+                    LEFT JOIN (
+                        select designer_id as i_id, count(designer_id) as jobs_taken_last_30_days
+                        from claims
+                        where 
+                            claims.updated_at > CURRENT_TIMESTAMP - interval '30' day
+                        group by designer_id
+                    ) as i ON (i_id = users.id)
+
+                    LEFT JOIN (
+                        select designer_id as j_id, count(designer_id) as jobs_taken_lifetime
+                        from claims
+                        group by designer_id
+                    ) as j ON (j_id = users.id)
+
+                    LEFT JOIN (
+                        select designer_id as k_id, count(designer_id) as refunds_last_30_days
+                        from claims
+                        WHERE
+                                claims.updated_at > CURRENT_TIMESTAMP - interval '30' day
+                        AND     claims.state = 'refunded' 
+                        group by designer_id
+                    ) as k ON (k_id = users.id)
+
+                    LEFT JOIN (
+                        select designer_id as l_id, count(designer_id) as refunds_lifetime
+                        from claims
+                        WHERE
+                                claims.state = 'refunded' 
+                        group by designer_id
+                    ) as l ON (l_id = users.id)
+
+                    LEFT JOIN (
+                        select 
+                            designer_id as m_id,
+                            (sum(jobs.price) - sum(jobs.commission))::numeric as earnings_lifetime
+                        from claims
+                            LEFT JOIN jobs on (claims.job_id = jobs.id)
+                        where claims.state = 'completed'
+                        group by designer_id
+                    ) as m ON (m_id = users.id)
+    
 				WHERE 
 					user_profiles.user_id = users.id AND
 					users.email = _email;
@@ -328,6 +382,8 @@ CREATE OR REPLACE FUNCTION get_artist_info(_email varchar, _tokn varchar)
 	END
 	$BODY$ 
 	LANGUAGE 'plpgsql';
+
+
 
 
 
@@ -380,3 +436,119 @@ CREATE OR REPLACE FUNCTION insert_update_token(_email varchar, _tokn varchar)
 	END
 	$BODY$ 
 	LANGUAGE 'plpgsql';
+
+
+
+
+CREATE TABLE IF NOT EXISTS claims(
+    id SERIAL NOT NULL,
+    designer_id integer,
+    job_id integer,
+    state VARCHAR,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    completed_at timestamp without time zone,
+    time_to_introduction double precision,
+    time_to_completion double precision,
+    is_excluded_from_grade boolean DEFAULT false,
+    deleted_at timestamp without time zone,
+    CONSTRAINT claims_pkey PRIMARY KEY (id),
+    CONSTRAINT fk_jobs_key FOREIGN KEY (job_id)
+        REFERENCES jobs (id),
+    CONSTRAINT fk_artist_key FOREIGN KEY (designer_id)
+        REFERENCES users (id)
+);
+
+
+
+CREATE OR REPLACE FUNCTION set_claims_created_time()
+	RETURNS trigger AS
+$$
+BEGIN
+	new.created_at = CURRENT_TIMESTAMP;
+	new.updated_at = CURRENT_TIMESTAMP;
+	return new;
+END;
+$$
+LANGUAGE 'plpgsql';
+
+CREATE TRIGGER claims_created_trigger 
+	BEFORE UPDATE OR INSERT ON "claims"
+		FOR EACH ROW
+		EXECUTE PROCEDURE set_claims_created_time();
+
+
+INSERT INTO claims
+(id, designer_id, job_id, state)
+VALUES
+	(1, 14, 6271, 'completed'),
+	(2, 14, 6171, 'completed'),
+	(3, 14, 2307, 'refunded'),
+	(4, 15, 6794, 'refunded'),
+	(5, 15, 6637, 'completed');
+
+CREATE OR REPLACE PROCEDURE remove_token(_user_id int, _tokn varchar)
+    AS
+    $$
+    BEGIN
+		delete from session_tokens 
+            WHERE session_token = _tokn AND user_id = _user_id;
+    END
+    $$ LANGUAGE 'plpgsql';
+
+testsetsets
+create sequence claims_id;
+ALTER TABLE claims
+ALTER COLUMN id set default nextval('claims_id');
+
+
+CREATE OR REPLACE FUNCTION claim_job(_email varchar, _tokn varchar, _job_id integer) 
+	RETURNS BOOLEAN
+	AS
+    $$
+	DECLARE
+		claim_succesful boolean default FALSE;
+        job_claimed boolean default FALSE;
+        _des_id integer default 0;
+	BEGIN		
+        if valid_token(_email,_tokn) then
+            if not exists(select 1 from jobs where id=_job_id) then
+                RAISE 'Job Does Not Exist';
+            else
+                
+            _des_id := (select users.id as designer_id from users where users.email = _email limit 1);
+
+                job_claimed := (
+                    SELECT COUNT(id) 
+                    FROM claims 
+                    WHERE claims.job_id = _job_id
+                    ) > 0;
+
+                if job_claimed then
+                    return FALSE;
+                else
+                    insert into claims (id, designer_id, job_id, state) VALUES (
+                        
+                            nextval('claims_id'),
+                            _des_id,
+                            _job_id,
+                            'active'
+                        );
+
+                    update jobs set 
+                        state='claimed',
+                        user_id = _des_id
+                        where jobs.id = _job_id;
+
+                    return TRUE;
+                end if;
+
+            end if;
+        else
+            RAISE 'Not Authorized';
+		end if;
+
+        return claim_succesful;
+
+	END
+	$$ LANGUAGE 'plpgsql';
