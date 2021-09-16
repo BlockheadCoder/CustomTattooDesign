@@ -57,10 +57,7 @@ export class JobDetailsPage implements OnInit {
                 this.router.navigate(["artist-landing"]);
             });
             return false;
-          }
-        }
-      ]
-    });
+      }}]});
     await alert.present();
   }
 }
