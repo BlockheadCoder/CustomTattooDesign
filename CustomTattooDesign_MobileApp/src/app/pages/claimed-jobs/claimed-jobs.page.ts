@@ -44,7 +44,8 @@ export class ClaimedJobsPage implements OnInit {
             tattooStyle: j["tattooStyle"],
             color: j["color"],
             commission: Math.round(j["commission"] * 100) / 100,
-            description: j["description"]
+            description: j["description"],
+            conversation: []
           }
           
           if (["draft", "claimed", "phase_one", "phase_two"].includes(tempJob.status)) {

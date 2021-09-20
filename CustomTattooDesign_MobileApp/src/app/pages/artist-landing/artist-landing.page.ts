@@ -49,4 +49,8 @@ export class ArtistLandingPage implements OnInit {
   goClaimed() {
     this.router.navigateByUrl("/claimed-jobs");
   }
+
+  goConversations() {
+    this.router.navigateByUrl("/artist-conversations");
+  }
 }
