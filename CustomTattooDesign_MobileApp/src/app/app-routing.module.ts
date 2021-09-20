@@ -35,6 +35,16 @@ const routes: Routes = [
     path: 'job-details',
     canActivate: [AuthGuardService],
     loadChildren: () => import('./pages/job-details/job-details.module').then( m => m.JobDetailsPageModule)
+  },
+  {
+    path: 'artist-conversations',
+    canActivate: [AuthGuardService],
+    loadChildren: () => import('./pages/artist-conversations/artist-conversations.module').then( m => m.ArtistConversationsPageModule)
+  },
+  {
+    path: 'artist-message',
+    canActivate: [AuthGuardService],
+    loadChildren: () => import('./pages/artist-message/artist-message.module').then( m => m.ArtistMessagePageModule)
   }
 ];
 

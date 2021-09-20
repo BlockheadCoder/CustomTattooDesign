@@ -1,3 +1,5 @@
+import { Message } from "./message";
+
 export interface Job {
     jobId : number;
     status : string;
@@ -9,4 +11,5 @@ export interface Job {
     color : boolean;
     commission : number;
     description : string;
+    conversation : Message[]
 }

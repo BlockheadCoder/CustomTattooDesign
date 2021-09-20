@@ -40,7 +40,8 @@ export class UnclaimedJobsPage implements OnInit {
             tattooStyle: j["tattooStyle"],
             color: j["color"],
             commission: Math.round(j["commission"] * 100) / 100,
-            description: j["description"]
+            description: j["description"],
+            conversation: []
           }
           this.unclaimedJobs.push(this.tempJob);
         });

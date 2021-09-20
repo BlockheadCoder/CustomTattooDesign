@@ -12,8 +12,8 @@ import { LoginAPIService } from 'src/app/services/login-api.service';
 })
 export class LoginComponent implements OnInit {
 
-  username : string = "";
-  password : string = "";
+  username : string = "lauronen@mac.com";
+  password : string = "password";
 
   errorMsg : string = ""; // displayed to screen when login fails
 
@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
   async ngOnInit() {
     await this.storage.create();
   }
-
 
   // Attempts a login API call when 'LOG IN' button is pressed
   login() {
