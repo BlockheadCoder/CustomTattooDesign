@@ -12,8 +12,8 @@ import { LoginAPIService } from 'src/app/services/login-api.service';
 })
 export class LoginComponent implements OnInit {
 
-  username : string = "lauronen@mac.com";
-  password : string = "password";
+  username : string = "";
+  password : string = "";
 
   errorMsg : string = ""; // displayed to screen when login fails
 

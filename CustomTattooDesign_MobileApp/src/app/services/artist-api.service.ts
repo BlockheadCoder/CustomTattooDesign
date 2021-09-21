@@ -78,7 +78,6 @@ export class ArtistApiService {
    * Returns a promise object holding a boolean representing whether the job claim was successful or not
    */
   async claimJob(artist : Artist, jobId : number) {
-
     var success;
 
     var err = false;
@@ -111,7 +110,6 @@ export class ArtistApiService {
    * Returns a promise object containing an array of an artist's conversations
    */
   async getJobMessages(job : Job) {
-    
     var success;
 
     var err = false;
