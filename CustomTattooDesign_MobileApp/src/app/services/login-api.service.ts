@@ -8,15 +8,15 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class LoginAPIService {
 
+  constructor(public http: HttpClient) { }
+
+  /* artist login */
   private authenticationState = new BehaviorSubject(false);
 
   private apiURL = "http://142.55.32.86:50201/api/authenticateCredentials";
   private bodyData;
 
-  constructor(public http: HttpClient) { }
-
   async login(user : string, pass : string) {
-
     var success;
     var err = false;
     var errorMsg;
@@ -26,9 +26,6 @@ export class LoginAPIService {
       'password': sha256(pass)
     }; 
 
-    /* 
-     * Asynchronous method - makes an API call to backend
-     */
     await this.http.post(this.apiURL, this.bodyData).toPromise().then(data => {
       success = data;
       this.authenticationState.next(true);
@@ -48,5 +45,44 @@ export class LoginAPIService {
 
   isAuthenticated() {
     return this.authenticationState.value;
+  }
+
+
+
+  /* customer login */
+  private customerAuthenticationState = new BehaviorSubject(false);
+
+  private getJobAsCustomerURL = "http://142.55.32.86:50201/api/getJobAsCustomer";
+  private customerBodyData;
+
+  async customerLogin(jobAccessToken : string) {
+    var success;
+    var err = false;
+    var errorMsg;
+
+    this.customerBodyData = {
+      'jobAccessToken': jobAccessToken
+    }; 
+
+    await this.http.post(this.getJobAsCustomerURL, this.customerBodyData).toPromise().then(data => {
+      success = data;
+      this.customerAuthenticationState.next(true);
+    }).catch(error => {
+      errorMsg = error.error.message;
+      err = true;
+    });
+
+    return new Promise(function(resolve, reject) {
+      if (err) {
+        console.log(errorMsg);
+        reject(errorMsg);
+      } else {
+        resolve(success); // send response body object
+      }
+    });
+  }
+
+  isCustomerAuthenticated() {
+    return this.customerAuthenticationState.value;
   }
 }

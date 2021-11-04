@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './services/auth-guard.service';
+import { CustomerAuthGuardService } from './services/customer-auth-guard.service';
 
 const routes: Routes = [
   {
     path: 'artist-login',
-    loadChildren: () => import('./pages/artist-login/artist-login').then( m => m.ArtistLoginPageModule)
+    loadChildren: () => import('./pages/artist-pages/artist-login/artist-login').then( m => m.ArtistLoginPageModule)
   },
   {
     path: '',
@@ -15,7 +16,7 @@ const routes: Routes = [
   {
     path: 'artist-landing',
     canActivate: [AuthGuardService],
-    loadChildren: () => import('./pages/artist-landing/artist-landing.module').then( m => m.ArtistLandingPageModule)
+    loadChildren: () => import('./pages/artist-pages/artist-landing/artist-landing.module').then( m => m.ArtistLandingPageModule)
   },
   {
     path: 'home',
@@ -24,27 +25,40 @@ const routes: Routes = [
   {
     path: 'unclaimed-jobs',
     canActivate: [AuthGuardService],
-    loadChildren: () => import('./pages/unclaimed-jobs/unclaimed-jobs.module').then( m => m.UnclaimedJobsPageModule)
+    loadChildren: () => import('./pages/artist-pages/unclaimed-jobs/unclaimed-jobs.module').then( m => m.UnclaimedJobsPageModule)
   },
   {
     path: 'claimed-jobs',
     canActivate: [AuthGuardService],
-    loadChildren: () => import('./pages/claimed-jobs/claimed-jobs.module').then( m => m.ClaimedJobsPageModule)
+    loadChildren: () => import('./pages/artist-pages/claimed-jobs/claimed-jobs.module').then( m => m.ClaimedJobsPageModule)
   },
   {
     path: 'job-details',
     canActivate: [AuthGuardService],
-    loadChildren: () => import('./pages/job-details/job-details.module').then( m => m.JobDetailsPageModule)
+    loadChildren: () => import('./pages/artist-pages/job-details/job-details.module').then( m => m.JobDetailsPageModule)
   },
   {
     path: 'artist-conversations',
     canActivate: [AuthGuardService],
-    loadChildren: () => import('./pages/artist-conversations/artist-conversations.module').then( m => m.ArtistConversationsPageModule)
+    loadChildren: () => import('./pages/artist-pages/artist-conversations/artist-conversations.module').then( m => m.ArtistConversationsPageModule)
   },
   {
     path: 'artist-message',
     canActivate: [AuthGuardService],
-    loadChildren: () => import('./pages/artist-message/artist-message.module').then( m => m.ArtistMessagePageModule)
+    loadChildren: () => import('./pages/artist-pages/artist-message/artist-message.module').then( m => m.ArtistMessagePageModule)
+  },
+  {
+    path: 'request-design',
+    loadChildren: () => import('./pages/customer-pages/request-design/request-design.module').then( m => m.RequestDesignPageModule)
+  },
+  {
+    path: 'customer-code-entry',
+    loadChildren: () => import('./pages/customer-pages/customer-code-entry/customer-code-entry.module').then( m => m.CustomerCodeEntryPageModule)
+  },
+  {
+    path: 'customer-landing',
+    canActivate: [CustomerAuthGuardService],
+    loadChildren: () => import('./pages/customer-pages/customer-landing/customer-landing.module').then( m => m.CustomerLandingPageModule)
   }
 ];
 

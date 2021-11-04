@@ -5,12 +5,12 @@ import { LoginAPIService } from './login-api.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardService implements CanActivate {
+export class CustomerAuthGuardService implements CanActivate {
 
   constructor(private loginService : LoginAPIService, private router : Router) { }
 
   canActivate() {
-    if (this.loginService.isAuthenticated() /* || this.loginService.isCustomerAuthenticated() */) {
+    if (this.loginService.isCustomerAuthenticated()) {
       return true;
     } else {
       return this.router.parseUrl('home');

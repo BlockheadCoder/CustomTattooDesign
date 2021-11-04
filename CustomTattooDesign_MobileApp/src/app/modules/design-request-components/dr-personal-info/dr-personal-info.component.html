@@ -1,0 +1,40 @@
+<span>First Name</span>
+<ion-input [(ngModel)]="personalDetails.firstName" ngDefaultControl></ion-input>
+
+<span>Last Name</span>
+<ion-input [(ngModel)]="personalDetails.lastName" ngDefaultControl></ion-input>
+
+<span>Email Address</span>
+<ion-input [(ngModel)]="personalDetails.emailAddress" ngDefaultControl type="email"></ion-input>
+
+<span>Confirm Email Address</span>
+<ion-input [(ngModel)]="personalDetails.confirmEmailAddress" ngDefaultControl type="email"></ion-input>
+
+<ion-radio-group [(ngModel)]="personalDetails.gender" ngDefaultControl>
+    <ion-list-header>
+        <ion-label>I identify as...</ion-label>
+    </ion-list-header>
+    <ion-item>
+        <ion-label>Male</ion-label>
+        <ion-radio slot="start" value="male" (ionBlur)="personalDetails.gender='male'"></ion-radio>
+    </ion-item>
+    <ion-item>
+        <ion-label>Female</ion-label>
+        <ion-radio slot="start" value="female" (ionBlur)="personalDetails.gender='female'"></ion-radio>
+    </ion-item>
+    <ion-item>
+        <ion-label>Non-Binary</ion-label>
+        <ion-radio slot="start" value="non-binary" (ionBlur)="personalDetails.gender='non-binary'"></ion-radio>
+    </ion-item>
+    <ion-item>
+        <ion-label>Prefer not to disclose</ion-label>
+        <ion-radio slot="start" value="not-disclosed" (ionBlur)="personalDetails.gender='not-disclosed'"></ion-radio>
+    </ion-item>
+</ion-radio-group>
+
+<br />
+<ion-item>
+    <ion-label text-wrap>Yes! Keep me up to date with news and exclusive offers.</ion-label>
+    <ion-checkbox slot="start" [(ngModel)]="emailChecked" (ionChange)="updateEmailPreference($event)" ngDefaultControl></ion-checkbox>
+</ion-item>
+

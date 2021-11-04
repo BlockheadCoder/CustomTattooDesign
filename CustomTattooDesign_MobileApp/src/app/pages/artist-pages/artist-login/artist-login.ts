@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ArtistLoginPage } from './artist-login.page';
 
 import { HomePageRoutingModule } from './artist-login-routing.module';
-import { ComponentsModule } from '../../components/components.module';
+import { ComponentsModule } from 'src/app/modules/login-components/login-components.module';
 
 @NgModule({
   imports: [

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
-import { Artist } from '../../model/artist';
+import { Artist } from '../../../model/artist';
 
 import { LoginAPIService } from 'src/app/services/login-api.service';
 
@@ -39,8 +39,7 @@ export class LoginComponent implements OnInit {
       data => { 
         if (data["validUser"]) {
           var artist : Artist = this.createArtist(data);
-          this.storage.set("ARTIST", artist);
-          this.goLandingPage();
+          this.storage.set("ARTIST", artist).then(() => this.goLandingPage());
         } else {
           this.errorMsg = "Incorrect Username or Password";
         }

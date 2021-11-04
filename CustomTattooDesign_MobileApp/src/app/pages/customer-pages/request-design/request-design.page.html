@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{sectionTitle[currentSection]}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="Back"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header>
+  <ion-progress-bar [value]="completionAmount"></ion-progress-bar>
+</ion-header>
+
+<ion-content>
+  <app-dr-personal-info [sentDetails]="personalDetails" *ngIf="currentSection == 0"></app-dr-personal-info>
+  <app-dr-tattoo-details [sentDetails]="tattooDetails" *ngIf="currentSection == 1"></app-dr-tattoo-details>
+  <app-dr-skeleton [sentDetails]="skeletonDetails" *ngIf="currentSection == 2"></app-dr-skeleton>
+  <app-dr-ref-images [sentDetails]="referenceImages" *ngIf="currentSection == 3"></app-dr-ref-images>
+</ion-content>
+
+<ion-footer class="footer">
+  <ion-item>
+    <ion-button *ngIf="currentSection > 0" slot="start" (click)="goPrev()">Prev</ion-button>
+    <ion-button *ngIf="currentSection < SECTION_MAX" slot="end" (click)="goNext()">Next</ion-button>
+    <ion-button *ngIf="currentSection == SECTION_MAX" slot="end" (click)="submitDesignRequest()">Submit</ion-button>
+  </ion-item>
+</ion-footer>

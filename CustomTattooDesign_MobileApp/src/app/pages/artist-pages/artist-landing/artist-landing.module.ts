@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ArtistLandingPageRoutingModule } from './artist-landing-routing.module';
-import { ComponentsModule } from '../../components/components.module';
+import { ComponentsModule } from '../../../modules/login-components/login-components.module';
 
 import { ArtistLandingPage } from './artist-landing.page';
 

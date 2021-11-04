@@ -1,0 +1,65 @@
+<ion-radio-group [(ngModel)]="tattooDetails.firstTattoo" ngDefaultControl>
+  <ion-list-header>
+      <ion-label>Is this your first tattoo?</ion-label>
+  </ion-list-header>
+  <ion-item>
+      <ion-label>Yes</ion-label>
+      <ion-radio slot="start" value="yes" (ionBlur)="tattooDetails.firstTattoo='yes'"></ion-radio>
+  </ion-item>
+  <ion-item>
+      <ion-label>No</ion-label>
+      <ion-radio slot="start" value="no" (ionBlur)="tattooDetails.firstTattoo='no'"></ion-radio>
+  </ion-item>
+</ion-radio-group><br />
+
+<ion-radio-group [(ngModel)]="tattooDetails.tattooColour" ngDefaultControl>
+  <ion-list-header>
+      <ion-label>Would you like your tattoo in colour?</ion-label>
+  </ion-list-header>
+  <ion-item>
+      <ion-label>Yes</ion-label>
+      <ion-radio slot="start" value="yes" (ionBlur)="tattooDetails.tattooColour='yes'"></ion-radio>
+  </ion-item>
+  <ion-item>
+      <ion-label>No</ion-label>
+      <ion-radio slot="start" value="no" (ionBlur)="tattooDetails.tattooColour='no'"></ion-radio>
+  </ion-item>
+</ion-radio-group><br />
+
+<ion-radio-group [(ngModel)]="tattooDetails.coverUpOrExtension" ngDefaultControl>
+  <ion-list-header>
+      <ion-label>Is this a cover-up or extension of an existing tattoo?</ion-label>
+  </ion-list-header>
+  <ion-item>
+      <ion-label>Yes</ion-label>
+      <ion-radio slot="start" value="yes" (ionBlur)="tattooDetails.coverUpOrExtension='yes'"></ion-radio>
+  </ion-item>
+  <ion-item>
+      <ion-label>No</ion-label>
+      <ion-radio slot="start" value="no" (ionBlur)="tattooDetails.coverUpOrExtension='no'"></ion-radio>
+  </ion-item>
+</ion-radio-group><br />
+
+<ion-item>
+  <ion-label>What style of tattoo would you like?</ion-label>
+  <ion-select [(ngModel)]="tattooDetails.tattooStyle" ngDefaultControl (ionChange)="tattooDetails.tattooStyle = $event.target.value">
+    <ion-select-option *ngFor="let style of tattooStyles" value="{{style.id}}">{{style.name}}</ion-select-option>
+  </ion-select>
+</ion-item><br />
+
+<ion-item>
+  <ion-label>In your estimate how large is your overall design?</ion-label>
+  <ion-select [(ngModel)]="tattooDetails.tattooSize" ngDefaultControl (ionChange)="tattooDetails.tattooSize = $event.target.value">
+    <ion-select-option *ngFor="let size of tattooSizes" value="{{size.id}}">{{size.name}}</ion-select-option>
+  </ion-select>
+</ion-item><br />
+
+<ion-card>
+  <ion-card-header>
+    <ion-card-subtitle>Tell us your idea</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-textarea [(ngModel)]='tattooDetails.tattooDescription' placeholder="Enter your idea here" ngDefaultControl></ion-textarea>
+  </ion-card-content>
+</ion-card>
+

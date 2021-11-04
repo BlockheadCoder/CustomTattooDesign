@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Customer Code Entry</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="Back"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Login</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      
+      <span>Customer Code</span>
+      <ion-input [(ngModel)]='customerCode' ngDefaultControl required></ion-input>
+      
+      <ion-label color="danger" *ngIf="errorMsg != '' ">{{errorMsg}}</ion-label>
+      <br *ngIf="errorMsg != '' "><br>
+  
+      <ion-button (click)='login()'>LOG IN</ion-button> <br><br>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

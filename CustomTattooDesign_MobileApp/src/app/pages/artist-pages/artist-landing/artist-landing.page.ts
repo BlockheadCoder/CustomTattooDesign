@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 
-import { Artist } from '../../model/artist';
+import { Artist } from '../../../model/artist';
 
 @Component({
   selector: 'app-artist-landing',
