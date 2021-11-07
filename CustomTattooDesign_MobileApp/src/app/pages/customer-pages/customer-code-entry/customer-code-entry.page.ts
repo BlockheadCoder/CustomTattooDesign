@@ -1,8 +1,10 @@
+import { Message } from 'src/app/model/message';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 import { Job } from 'src/app/model/job';
 import { LoginAPIService } from 'src/app/services/login-api.service';
+import { CustomerApiService } from 'src/app/services/customer-api.service';
 
 @Component({
   selector: 'app-customer-code-entry',
@@ -15,6 +17,7 @@ export class CustomerCodeEntryPage implements OnInit {
   customerCode = "";
 
   constructor(private loginAPIService : LoginAPIService,
+              private customerService : CustomerApiService,
               private router : Router,
               private storage: Storage) { }
 
@@ -37,7 +40,11 @@ export class CustomerCodeEntryPage implements OnInit {
         console.log(data);
         if (data != null || data["status"] == 500) {
           var job : Job = this.createJob(data);
-          this.storage.set("JOB", job).then(() => this.goCustomerLandingPage());
+          this.customerService.setMessages(job);
+          this.storage.set("JOB", job).then(() => {
+            this.goCustomerLandingPage();
+            console.log(job);
+          });
         } else {
           this.errorMsg = "Incorrect Username or Password";
         }

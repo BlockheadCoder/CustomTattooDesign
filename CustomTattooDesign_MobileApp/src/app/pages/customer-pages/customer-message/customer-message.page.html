@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title style="text-align: center;">ARTIST_NAME</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="presentDesignsOptionSheet()">
+        <ion-icon slot="icon-only" name="images-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="refreshConversation()">
+        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-title style="text-align: center;" size="small">{{job.title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div #messages_holder style="overflow-y: scroll; height: xyz;">
+    <div *ngFor="let msg of job.conversation">
+      <ion-card class="message" class="artist_msg" *ngIf="msg.designer_id != 0">
+        <ion-label style="font-size: 11px; float:right; padding-top: 6px; padding-right: 6px;">{{msg.created_at.toLocaleString()}}</ion-label>
+        <ion-card-content>
+          <ion-label class="message_content">{{msg.body}}</ion-label>
+        </ion-card-content>
+      </ion-card>
+
+      
+      <ion-card class="message" class="customer_msg" *ngIf="msg.designer_id == 0" color="success">
+        <ion-label style="font-size: 11px; float:left; padding-top: 6px; padding-left: 6px;">{{msg.created_at.toLocaleString()}}</ion-label>
+        <ion-card-content>
+          <ion-label class="message_content">{{msg.body}}</ion-label>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="footer">
+  <ion-item>
+    <ion-button slot="end" (click)="sendMessage()">
+      <ion-icon name="paper-plane-outline"></ion-icon>
+    </ion-button>
+    <ion-textarea [(ngModel)]='current_message' placeholder="Message"></ion-textarea>
+  </ion-item>
+</ion-footer>

@@ -59,6 +59,25 @@ const routes: Routes = [
     path: 'customer-landing',
     canActivate: [CustomerAuthGuardService],
     loadChildren: () => import('./pages/customer-pages/customer-landing/customer-landing.module').then( m => m.CustomerLandingPageModule)
+  },
+  {
+    path: 'customer-message',
+    canActivate: [CustomerAuthGuardService],
+    loadChildren: () => import('./pages/customer-pages/customer-message/customer-message.module').then( m => m.CustomerMessagePageModule)
+  },
+  {
+    path: 'customer-design-details',
+    canActivate: [CustomerAuthGuardService],
+    loadChildren: () => import('./pages/customer-pages/customer-design-details/customer-design-details.module').then( m => m.CustomerDesignDetailsPageModule)
+  },
+  {
+    path: 'customer-design-drawing',
+    canActivate: [CustomerAuthGuardService],
+    loadChildren: () => import('./pages/customer-pages/customer-design-drawing/customer-design-drawing.module').then( m => m.CustomerDesignDrawingPageModule)
+  },
+  {
+    path: 'customer-design-images',
+    loadChildren: () => import('./pages/customer-pages/customer-design-images/customer-design-images.module').then( m => m.CustomerDesignImagesPageModule)
   }
 ];
 

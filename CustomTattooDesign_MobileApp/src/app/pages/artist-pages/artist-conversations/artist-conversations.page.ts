@@ -77,7 +77,7 @@ export class ArtistConversationsPage implements OnInit {
                 created_at: new Date(m["createdAt"]),
                 designer_id: m["designerId"],
                 comment_picture: null,
-                read: m["read"],
+                read: m["read"]
               }
             job.conversation.push(tempMsg);
           })

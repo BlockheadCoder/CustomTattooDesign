@@ -13,6 +13,7 @@ import { ArtistApiService } from 'src/app/services/artist-api.service';
 })
 export class JobDetailsPage implements OnInit {
   job : Job;
+  
   sendData : NavigationExtras;
 
   constructor(private router : Router, 

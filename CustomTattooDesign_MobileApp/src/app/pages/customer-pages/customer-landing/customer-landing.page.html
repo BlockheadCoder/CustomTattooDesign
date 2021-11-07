@@ -6,4 +6,10 @@
 
 <ion-content>
   <h1>Welcome {{job.customerName}}!</h1>
+
+  <ion-button *ngIf="job.status != 'queued'" expand="block" (click)="goConversation()">Your Conversation</ion-button> <br>
+  <ion-button expand="block" (click)="goDesignDetails()">Your Design's Details</ion-button> <br>
+  <ion-button expand="block" (click)="goDesigns()">Your Designs</ion-button> <br>
+
+  <div id="img_test"></div>
 </ion-content>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 import { Job } from 'src/app/model/job';
 
@@ -9,6 +10,7 @@ import { Job } from 'src/app/model/job';
 })
 export class CustomerLandingPage implements OnInit {
 
+  @ViewChild('img_test') img_test: ElementRef;
   job : Job = {
     "jobId" : 0,
     "status" : "",
@@ -23,12 +25,31 @@ export class CustomerLandingPage implements OnInit {
     "conversation" : []
   };
 
-  constructor(private storage : Storage) { }
+  constructor(private storage : Storage,
+              private router : Router) { }
 
   ngOnInit() {
     this.storage.get("JOB").then(job => {
       this.job = job;
     });
+
+    /*
+    var img = new Image();
+    img.src = "src/app/assets/download.jpeg";
+    this.img_test.nativeElement.innerHTML = img;
+    */
+  }
+
+  goConversation() {
+    this.router.navigateByUrl("/customer-message");
+  }
+
+  goDesignDetails() {
+    this.router.navigateByUrl("/customer-design-details");
+  }
+
+  goDesigns() {
+    this.router.navigateByUrl("/customer-design-images");
   }
 
 }

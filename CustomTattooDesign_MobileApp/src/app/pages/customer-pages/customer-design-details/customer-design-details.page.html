@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Design Details</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="Back"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="primary" *ngIf="job.status != 'Needs Designer'"> <!-- only display chat for claimed jobs -->
+      <ion-button (click)="goConversation()">
+        <ion-icon slot="icon-only" name="chatbubble-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col id="title">{{job.title}}</ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col id="subtitle">for {{job.customerName}}</ion-col>
+    </ion-row> <br>
+
+    <ion-row>
+      <ion-col>Tattoo Type</ion-col>
+      <ion-col>Assigned Artist</ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="value">{{job.tattooType}}</ion-col>
+      <ion-col *ngIf="job.status == 'Needs Designer'" class="value">No artist assigned yet.</ion-col>
+      <ion-col *ngIf="job.status != 'Needs Designer'" class="value">ARTIST_NAME</ion-col>
+    </ion-row> <br>
+
+    <ion-row>
+      <ion-col>Tattoo Style</ion-col>
+      <ion-col>Status</ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="value">{{job.tattooStyle}}</ion-col>
+      <ion-col class="value">{{job.status}}</ion-col>
+    </ion-row> <br>
+
+    <ion-row>
+      <ion-col>Has Color</ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="value" *ngIf="job.color">Yes</ion-col>
+      <ion-col class="value" *ngIf="!job.color">No</ion-col>
+    </ion-row>
+
+    <hr color="white">
+
+    <ion-row>
+      <ion-col>Instructions</ion-col>
+    </ion-row>
+    
+    <ion-row>
+      <ion-col class="value">{{job.description}}</ion-col>
+    </ion-row>
+    <ion-button>Image</ion-button>
+
+    <hr color="white">
+  </ion-grid>
+</ion-content>
+
