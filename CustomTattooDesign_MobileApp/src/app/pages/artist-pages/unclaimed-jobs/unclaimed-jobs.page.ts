@@ -41,7 +41,8 @@ export class UnclaimedJobsPage implements OnInit {
             color: j["color"],
             commission: Math.round(j["commission"] * 100) / 100,
             description: j["description"],
-            conversation: []
+            conversation: [],
+            designImages: []
           }
           this.unclaimedJobs.push(this.tempJob);
         });

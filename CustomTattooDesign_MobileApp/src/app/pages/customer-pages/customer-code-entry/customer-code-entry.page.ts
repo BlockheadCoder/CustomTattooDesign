@@ -14,7 +14,7 @@ import { CustomerApiService } from 'src/app/services/customer-api.service';
 export class CustomerCodeEntryPage implements OnInit {
 
   errorMsg = "";
-  customerCode = "";
+  customerCode = "Ejj/RRBkk/3CmLOCoi+VnVEGFlGrRS3z/Zqe6Whs";
 
   constructor(private loginAPIService : LoginAPIService,
               private customerService : CustomerApiService,
@@ -36,15 +36,24 @@ export class CustomerCodeEntryPage implements OnInit {
 
     // calls API
     this.loginAPIService.customerLogin(this.customerCode).then(
-      data => { 
-        console.log(data);
-        if (data != null || data["status"] == 500) {
-          var job : Job = this.createJob(data);
+      jobData => { 
+        console.log(jobData);
+        if (jobData != null || jobData["status"] == 500) {
+          var job : Job = this.createJob(jobData);
           this.customerService.setMessages(job);
-          this.storage.set("JOB", job).then(() => {
-            this.goCustomerLandingPage();
-            console.log(job);
-          });
+          this.customerService.getDesignImages(job).then(diData => {
+            if (diData != null || diData["status"] == 500) {
+              console.log(diData);
+              this.customerService.setDesignImages(job, diData);
+              this.storage.set("JOB", job).then(() => {
+                this.goCustomerLandingPage();
+                console.log(job);
+             });
+            } else {
+              console.log("design retrieval failed");
+              console.log(diData);
+            }
+          })
         } else {
           this.errorMsg = "Incorrect Username or Password";
         }
@@ -52,6 +61,7 @@ export class CustomerCodeEntryPage implements OnInit {
     ).catch(error => { 
       // add new errors here as they are created
       this.errorMsg = "Invalid Code."; 
+      console.log(error);
     });
   }
 
@@ -67,8 +77,10 @@ export class CustomerCodeEntryPage implements OnInit {
       "color" : userData["color"],
       "commission" : userData["commision"],
       "description" : userData["description"],
-      "conversation" : userData["messages"]
+      "conversation" : userData["messages"],
+      "designImages" : []
     }
+
     return job;
   }
 

@@ -60,10 +60,11 @@
     <ion-row>
       <ion-col class="value">{{job.description}}</ion-col>
     </ion-row>
-    <ion-button>Image</ion-button>
 
     <hr color="white">
   </ion-grid>
+
+  <ion-button expand="block" (click)="goViewDesignImages()">View Design Images</ion-button>
 
   <ion-button *ngIf="job.status == 'Needs Designer'" style="float: right" (click)="claimJob(job)">Claim</ion-button>
 </ion-content>

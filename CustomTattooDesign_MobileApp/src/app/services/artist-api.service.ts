@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Artist } from '../model/artist';
 import { Job } from '../model/job';
 import { Message } from '../model/message';
+import { DesignImage } from '../model/designImage';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,9 @@ export class ArtistApiService {
   private getArtistJobsURL = "http://142.55.32.86:50201/api/fetchArtistJobs";
   private claimJobURL = "http://142.55.32.86:50201/api/claimJob";
   private fetchJobMessagesURL = "http://142.55.32.86:50201/api/fetchJobMessages";
-  private sendStringMessageURL = "http://142.55.32.86:50201/api/sendStringMessage"
+  private sendStringMessageURL = "http://142.55.32.86:50201/api/sendStringMessage";
+  private getDesignImagesURL = "http://142.55.32.86:50201/api/getDesigns";
+  private sendDesignDraftURL = "http://142.55.32.86:50201/api/sendDesignDraft"
 
   constructor(private http: HttpClient) { }
 
@@ -70,6 +73,35 @@ export class ArtistApiService {
         reject(errorMsg);
       } else {
         resolve(jobs);
+      }
+    });
+  }
+
+  /* 
+   * Returns a promise object containing an array of the given job's design objects
+   */
+  async getDesignImages(job : Job) {
+    var success;
+
+    var err = false;
+    var errorMsg = "";
+
+    var requestBody = {
+      "jobId": job.jobId
+    }
+
+    await this.http.post(this.getDesignImagesURL, requestBody).toPromise().then(data => {
+      success = data;
+    }).catch(error => {
+      errorMsg = error.error.message;
+      err = true;
+    });
+
+    return new Promise(function(resolve, reject) {
+      if (err) {
+        reject(errorMsg);
+      } else {
+        resolve(success);
       }
     });
   }
@@ -168,4 +200,51 @@ export class ArtistApiService {
       }
     });
   }  
+
+  async submitDesignDraft(artist : Artist, job : Job, image) {
+    var err = false;
+    var success;
+    var errorMsg = "";
+
+    var formData: any = new FormData();
+    formData.append("image", image, image.name);
+    formData.append("jobId", job.jobId);
+    formData.append("sessionToken", artist.sessionToken);
+
+    console.log(formData);
+
+    await this.http.post(this.sendDesignDraftURL, formData).toPromise().then(result => {
+      success = result;
+    }).catch(error => {
+      err = true;
+      errorMsg = error.error.message;
+    });
+
+    return new Promise(function(resolve, reject) {
+      if (err) {
+        reject(errorMsg);
+      } else {
+        resolve(success);
+      }
+    });
+  }
+
+  /* sets the jobs design images as a new DesignImages array built from the API return data */
+  setDesignImages(job : Job, data) {
+    let designImages = data as Array<Object>;
+
+    var tempDesignImages : DesignImage[] = [];
+    var tempDesignImage : DesignImage;
+    
+    designImages.forEach(di => {
+      tempDesignImage = {
+        name: di["imageName"],
+        submissionDate: new Date(di["submissionDate"]),
+        image: di["imageByteRepresentation"]
+      }
+      tempDesignImages.push(tempDesignImage);
+    })
+    
+    job.designImages = tempDesignImages;
+  }
 }

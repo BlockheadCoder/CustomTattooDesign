@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Job } from '../model/job';
 import { Message } from '../model/message';
+import { DesignImage } from '../model/designImage';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class CustomerApiService {
   //private testFormSubmitURL = "http://142.55.32.86:50201/api/testModelAttribute";
   private submitDesignRequestURL = "http://142.55.32.86:50201/api/submitDesignRequest";
   private fetchJobMessagesURL = "http://142.55.32.86:50201/api/fetchJobMessages";
-  private sendStringMessageURL = "http://142.55.32.86:50201/api/sendStringMessage"
+  private sendStringMessageURL = "http://142.55.32.86:50201/api/sendStringMessage";
+  private getDesignImagesURL = "http://142.55.32.86:50201/api/getDesigns";
 
 
   constructor(private http: HttpClient) { }
@@ -104,10 +106,38 @@ export class CustomerApiService {
   }
 
   /* 
+   * Returns a promise object containing an array of the given job's design objects
+   */
+  async getDesignImages(job : Job) {
+    var success;
+
+    var err = false;
+    var errorMsg = "";
+
+    var requestBody = {
+      "jobId": job.jobId
+    }
+
+    await this.http.post(this.getDesignImagesURL, requestBody).toPromise().then(data => {
+      success = data;
+    }).catch(error => {
+      errorMsg = error.error.message;
+      err = true;
+    });
+
+    return new Promise(function(resolve, reject) {
+      if (err) {
+        reject(errorMsg);
+      } else {
+        resolve(success);
+      }
+    });
+  }
+
+  /* 
    * Returns a promise object holding a boolean representing whether the job claim was successful or not
    */
   async sendMessage(job : Job, message : Message) {
-
     var success;
 
     var err = false;
@@ -135,6 +165,7 @@ export class CustomerApiService {
     });
   }  
 
+  /* sets the conversation for the given job */
   setMessages(job : Job) {
     var tempMessages = [];
     var tempMsg : Message;
@@ -151,10 +182,50 @@ export class CustomerApiService {
       }
       tempMessages.push(tempMsg);
     });
-
     job.conversation = tempMessages;
     console.log(job.conversation);
   }
+
+  /* sets the jobs design images as a new DesignImages array built from the API return data */
+  setDesignImages(job : Job, data) {
+    let designImages = data as Array<Object>;
+
+    var tempDesignImages : DesignImage[] = [];
+    var tempDesignImage : DesignImage;
+    
+    designImages.forEach(di => {
+      tempDesignImage = {
+        name: di["imageName"],
+        submissionDate: new Date(di["submissionDate"]),
+        image: di["imageByteRepresentation"]
+      }
+      tempDesignImages.push(tempDesignImage);
+    })
+    
+    job.designImages = tempDesignImages;
+  }
+
+  /*
+  setDesignImagesTest(job : Job) {
+    var tempDesignImages : DesignImage[] = [];
+    
+    var di1 : DesignImage = {
+      name : "design image 1",
+      submissionDate : new Date(2021, 10, 17),
+      image : null
+    };
+    var di2 : DesignImage = {
+      name : "design image 2",
+      submissionDate : new Date(),
+      image : null
+    };
+    tempDesignImages.push(di1);
+    tempDesignImages.push(di2);
+    
+    job.designImages = tempDesignImages;
+    console.log(job.designImages);
+  }
+  */
 
   refreshConversation(job : Job) {
     var tempConversation : Message[] = [];

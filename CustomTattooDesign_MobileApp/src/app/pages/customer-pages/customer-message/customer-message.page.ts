@@ -25,7 +25,8 @@ export class CustomerMessagePage implements OnInit {
     "color" : false,
     "commission" : 0.0,
     "description" : "",
-    "conversation" : []
+    "conversation" : [],
+    "designImages" : []
   };
 
   constructor(private router : Router, 

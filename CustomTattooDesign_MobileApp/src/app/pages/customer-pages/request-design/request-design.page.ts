@@ -137,7 +137,7 @@ export class RequestDesignPage implements OnInit {
         designRequest.image1 = this.referenceImages[0];
         break;
       default:
-        console.log("no images");
+        //console.log("no images");
     }
 
     this.customerApiServive.submitDesignRequest(designRequest).then(result => { this.alertAction(result); });

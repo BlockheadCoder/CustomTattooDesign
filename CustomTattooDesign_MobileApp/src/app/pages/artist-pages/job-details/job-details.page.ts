@@ -13,7 +13,6 @@ import { ArtistApiService } from 'src/app/services/artist-api.service';
 })
 export class JobDetailsPage implements OnInit {
   job : Job;
-  
   sendData : NavigationExtras;
 
   constructor(private router : Router, 
@@ -91,4 +90,20 @@ export class JobDetailsPage implements OnInit {
       console.log(err)
     );
   }
+
+  goViewDesignImages() {
+    this.artistService.getDesignImages(this.job).then(diData => {
+      if (diData != null || diData["status"] == 500) {
+        this.artistService.setDesignImages(this.job, diData);
+        
+        this.sendData = { state: { job : this.job } };
+        this.router.navigate(['artist-design-images'], this.sendData).catch(err => 
+          console.log(err)
+        );
+      } else {
+        console.log("design retrieval failed");
+        console.log(diData);
+      }
+    }
+  )};
 }

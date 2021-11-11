@@ -45,7 +45,8 @@ export class ClaimedJobsPage implements OnInit {
             color: j["color"],
             commission: Math.round(j["commission"] * 100) / 100,
             description: j["description"],
-            conversation: []
+            conversation: [],
+            designImages: []
           }
           
           if (["draft", "claimed", "phase_one", "phase_two"].includes(tempJob.status)) {

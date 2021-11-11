@@ -22,7 +22,8 @@ export class CustomerLandingPage implements OnInit {
     "color" : false,
     "commission" : 0.0,
     "description" : "",
-    "conversation" : []
+    "conversation" : [],
+    "designImages" : []
   };
 
   constructor(private storage : Storage,

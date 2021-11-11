@@ -1,3 +1,4 @@
+import { DesignImage } from "./designImage";
 import { Message } from "./message";
 
 export interface Job {
@@ -11,5 +12,6 @@ export interface Job {
     color : boolean;
     commission : number;
     description : string;
-    conversation : Message[]
+    conversation : Message[];
+    designImages : DesignImage[];
 }

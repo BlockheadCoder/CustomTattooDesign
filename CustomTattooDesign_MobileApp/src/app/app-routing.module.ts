@@ -77,7 +77,13 @@ const routes: Routes = [
   },
   {
     path: 'customer-design-images',
+    canActivate: [CustomerAuthGuardService],
     loadChildren: () => import('./pages/customer-pages/customer-design-images/customer-design-images.module').then( m => m.CustomerDesignImagesPageModule)
+  },
+  {
+    path: 'artist-design-images',
+    canActivate: [AuthGuardService],
+    loadChildren: () => import('./pages/artist-pages/artist-design-images/artist-design-images.module').then( m => m.ArtistDesignImagesPageModule)
   }
 ];
 

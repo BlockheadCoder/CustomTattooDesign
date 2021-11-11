@@ -59,7 +59,8 @@ export class ArtistConversationsPage implements OnInit {
             color: j["color"],
             commission: Math.round(j["commission"] * 100) / 100,
             description: j["description"],
-            conversation: []
+            conversation: [],
+            designImages: []
           }
           tempJobs.push(tempJob);
         })

@@ -20,7 +20,8 @@ export class CustomerDesignDetailsPage implements OnInit {
     color: false,
     commission: 0,
     description: "",
-    conversation: []
+    conversation: [],
+    designImages: []
   };
 
   constructor(private router : Router, 
@@ -35,4 +36,7 @@ export class CustomerDesignDetailsPage implements OnInit {
     });
   }
 
+  goViewDesignImages() {
+    this.router.navigate(['customer-design-images']);
+  }
 }
