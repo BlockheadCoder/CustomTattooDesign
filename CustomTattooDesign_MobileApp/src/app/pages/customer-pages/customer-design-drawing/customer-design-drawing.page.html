@@ -7,6 +7,43 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding no-bounce>
+  <div #fixedContainer ion-fixed>
+    <ion-row>
+      <ion-col *ngFor="let color of colors" [style.background]="color" class="color-block" tappable (click)="selectColor(color)"> </ion-col>
+    </ion-row>
 
+    <ion-radio-group [(ngModel)]="selectedColor" ngDefaultControl>
+      <ion-row>
+        <ion-col *ngFor="let color of colors" text-center>
+          <ion-radio [value]="color"></ion-radio>
+        </ion-col>
+      </ion-row>
+    </ion-radio-group>
+
+    <canvas #imageCanvas (touchstart)="startDrawing($event)" (touchmove)="moved($event)"></canvas>
+    <ion-row>
+      <ion-col>
+        <ion-tab-button (click)="resetCanvas()">
+          <ion-icon size="large" name="trash-outline"></ion-icon>
+        </ion-tab-button>
+      </ion-col>
+      <ion-col>
+        <ion-tab-button (click)="selectedLineWidth = 1">
+          <ion-icon size="small" name="ellipse-outline"></ion-icon>
+        </ion-tab-button>
+      </ion-col>
+      <ion-col>
+        <ion-tab-button (click)="selectedLineWidth = 6">
+          <ion-icon size="medium" name="ellipse-outline"></ion-icon>
+        </ion-tab-button>
+      </ion-col>
+      <ion-col>
+        <ion-tab-button (click)="selectedLineWidth = 12">
+          <ion-icon size="large" name="ellipse-outline"></ion-icon>
+        </ion-tab-button>
+      </ion-col>
+    </ion-row>
+    
+  </div>
 </ion-content>
