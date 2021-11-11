@@ -1,4 +1,3 @@
-import { Message } from 'src/app/model/message';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
@@ -14,7 +13,7 @@ import { CustomerApiService } from 'src/app/services/customer-api.service';
 export class CustomerCodeEntryPage implements OnInit {
 
   errorMsg = "";
-  customerCode = "Ejj/RRBkk/3CmLOCoi+VnVEGFlGrRS3z/Zqe6Whs";
+  customerCode = "";
 
   constructor(private loginAPIService : LoginAPIService,
               private customerService : CustomerApiService,
@@ -26,7 +25,6 @@ export class CustomerCodeEntryPage implements OnInit {
   }
 
   login() {
-    console.log(this.customerCode);
     this.errorMsg = "";
 
     if (this.customerCode.trim() == "") {
@@ -37,9 +35,9 @@ export class CustomerCodeEntryPage implements OnInit {
     // calls API
     this.loginAPIService.customerLogin(this.customerCode).then(
       jobData => { 
-        console.log(jobData);
         if (jobData != null || jobData["status"] == 500) {
           var job : Job = this.createJob(jobData);
+          console.log(jobData);
           this.customerService.setMessages(job);
           this.customerService.getDesignImages(job).then(diData => {
             if (diData != null || diData["status"] == 500) {
@@ -47,11 +45,9 @@ export class CustomerCodeEntryPage implements OnInit {
               this.customerService.setDesignImages(job, diData);
               this.storage.set("JOB", job).then(() => {
                 this.goCustomerLandingPage();
-                console.log(job);
              });
             } else {
-              console.log("design retrieval failed");
-              console.log(diData);
+              this.errorMsg = "Design retrieval failed";
             }
           })
         } else {

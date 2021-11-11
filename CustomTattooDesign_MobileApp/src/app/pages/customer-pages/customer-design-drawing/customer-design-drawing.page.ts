@@ -45,7 +45,6 @@ export class CustomerDesignDrawingPage implements OnInit {
     this.drawDesign();
   }
 
-
   selectColor(color) {
     this.selectedColor = color;
   }
@@ -85,6 +84,7 @@ export class CustomerDesignDrawingPage implements OnInit {
     this.drawDesign();
   }
 
+  /* inserts the selected design image onto the blank canvas so it can be drawn over */
   drawDesign() {
     let ctx = this.canvasElement.getContext('2d');
     var img = new Image();
@@ -94,18 +94,10 @@ export class CustomerDesignDrawingPage implements OnInit {
     var stretchFactor = img.width / this.plt.width(); 
     var newHeight = img.height / stretchFactor;
 
-    /*
-    console.log('stretchFactor=' + stretchFactor);
-    console.log('deviceWidth=' + this.plt.width())
-    console.log('original: width=' + img.width + ', height=' + img.height);
-    console.log('converted: width=' + (img.width / stretchFactor) + ', height=' + (img.height / stretchFactor));
-    */
-
     img.onload = () => {
       // Math.min stretches the image horizontally to fit if it would be too tall otherwise
       ctx.drawImage(img, 0, 0, this.canvasElement.width, Math.min(this.canvasElement.height, newHeight)); 
     };
-    img.src = this.getImageSrcString(this.designImage);
   }
 
   getImageSrcString(designImage : DesignImage) {
@@ -115,4 +107,11 @@ export class CustomerDesignDrawingPage implements OnInit {
     }
     return "data:image/" + mimeType + ";base64," + designImage.image;
   }
+
+  /*
+    console.log('stretchFactor=' + stretchFactor);
+    console.log('deviceWidth=' + this.plt.width())
+    console.log('original: width=' + img.width + ', height=' + img.height);
+    console.log('converted: width=' + (img.width / stretchFactor) + ', height=' + (img.height / stretchFactor));
+    */
 }

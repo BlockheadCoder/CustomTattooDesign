@@ -39,4 +39,8 @@ export class CustomerDesignDetailsPage implements OnInit {
   goViewDesignImages() {
     this.router.navigate(['customer-design-images']);
   }
+
+  goConversation() {
+    this.router.navigateByUrl("/customer-message");
+  }
 }

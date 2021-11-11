@@ -22,6 +22,7 @@
     </ion-radio-group>
 
     <canvas #imageCanvas (touchstart)="startDrawing($event)" (touchmove)="moved($event)"></canvas>
+    
     <ion-row>
       <ion-col>
         <ion-tab-button (click)="resetCanvas()">
