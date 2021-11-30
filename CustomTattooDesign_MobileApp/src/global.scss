@@ -24,3 +24,37 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+* {
+    font-family: "Proxima Nova", sans-serif;
+}
+
+ion-toolbar {
+    --background: #3C4858;
+    --colour: #5bc0de;
+}
+
+ion-content {
+    --ion-background-color: #F5F5F5; 
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #555555;
+}
+
+:root {
+    --ion-color-main: #5bc0de;
+    --ion-color-main-contrast: #ffffff;
+    --ion-color-flashy: #2f8dea;
+    --ion-color-flashy-contrast: #ffffff;
+}
+
+.ion-color-main {
+    --ion-color-base: var(--ion-color-main);
+    --ion-color-contrast: var(--ion-color-main-contrast);
+}
+
+.ion-color-flashy {
+    --ion-color-base: var(--ion-color-flashy);
+    --ion-color-contrast: var(--ion-color-flashy-contrast);
+}
