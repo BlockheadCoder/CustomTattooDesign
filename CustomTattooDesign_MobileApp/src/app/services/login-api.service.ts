@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { sha256 } from 'js-sha256';
 import { BehaviorSubject } from 'rxjs';
 
@@ -7,6 +7,11 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginAPIService {
+
+  private headerData = new HttpHeaders({
+    'BEARER': 'CustomTattooBestTattooDesigns'
+  })
+  private header = {headers: this.headerData}
 
   constructor(public http: HttpClient) { }
 
@@ -26,7 +31,7 @@ export class LoginAPIService {
       'password': sha256(pass)
     }; 
 
-    await this.http.post(this.apiURL, this.bodyData).toPromise().then(data => {
+    await this.http.post(this.apiURL, this.bodyData, this.header).toPromise().then(data => {
       success = data;
       this.authenticationState.next(true);
     }).catch(error => {
@@ -54,6 +59,7 @@ export class LoginAPIService {
 
   private getJobAsCustomerURL = "http://142.55.32.86:50201/api/getJobAsCustomer";
   private customerBodyData;
+  private customerHeaderData;
 
   async customerLogin(jobAccessToken : string) {
     var success;
@@ -64,7 +70,7 @@ export class LoginAPIService {
       'jobAccessToken': jobAccessToken
     }; 
 
-    await this.http.post(this.getJobAsCustomerURL, this.customerBodyData).toPromise().then(data => {
+    await this.http.post(this.getJobAsCustomerURL, this.customerBodyData, this.header).toPromise().then(data => {
       success = data;
       this.customerAuthenticationState.next(true);
     }).catch(error => {

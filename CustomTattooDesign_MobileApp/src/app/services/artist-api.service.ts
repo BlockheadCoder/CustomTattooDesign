@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Artist } from '../model/artist';
 import { Job } from '../model/job';
 import { Message } from '../model/message';
@@ -18,6 +18,11 @@ export class ArtistApiService {
   private getDesignImagesURL = "http://142.55.32.86:50201/api/getDesigns";
   private sendDesignDraftURL = "http://142.55.32.86:50201/api/sendDesignDraft"
 
+  private headerData = new HttpHeaders({
+    'BEARER': 'CustomTattooBestTattooDesigns'
+  })
+  private header = {headers: this.headerData}
+
   constructor(private http: HttpClient) { }
 
   /* 
@@ -29,7 +34,7 @@ export class ArtistApiService {
     var err = false;
     var errorMsg = "";
 
-    await this.http.post(this.getUnclaimedURL, null).toPromise().then(data => {
+    await this.http.post(this.getUnclaimedURL, null, this.header).toPromise().then(data => {
       unclaimedJobs = data;
     }).catch(error => {
       errorMsg = error.error.message;
@@ -61,7 +66,7 @@ export class ArtistApiService {
       "sessionToken": artist.sessionToken
     }
 
-    await this.http.post(this.getArtistJobsURL, requestBody).toPromise().then(data => {
+    await this.http.post(this.getArtistJobsURL, requestBody, this.header).toPromise().then(data => {
       jobs = data;
     }).catch(error => {
       errorMsg = error.error.message;
@@ -90,7 +95,7 @@ export class ArtistApiService {
       "jobId": job.jobId
     }
 
-    await this.http.post(this.getDesignImagesURL, requestBody).toPromise().then(data => {
+    await this.http.post(this.getDesignImagesURL, requestBody, this.header).toPromise().then(data => {
       success = data;
     }).catch(error => {
       errorMsg = error.error.message;
@@ -122,7 +127,7 @@ export class ArtistApiService {
       "jobId": jobId
     }
 
-    await this.http.post(this.claimJobURL, requestBody).toPromise().then(data => {
+    await this.http.post(this.claimJobURL, requestBody, this.header).toPromise().then(data => {
       success = data;
     }).catch(error => {
       errorMsg = error.error.message;
@@ -153,7 +158,7 @@ export class ArtistApiService {
 
     var messages;
 
-    await this.http.post(this.fetchJobMessagesURL, requestBody).toPromise().then(data => {
+    await this.http.post(this.fetchJobMessagesURL, requestBody, this.header).toPromise().then(data => {
       messages = data;
     }).catch(error => {
       errorMsg = error.error.message;
@@ -185,7 +190,7 @@ export class ArtistApiService {
       "sessionToken": artist.sessionToken
     }
 
-    await this.http.post(this.sendStringMessageURL, requestBody).toPromise().then(data => {
+    await this.http.post(this.sendStringMessageURL, requestBody, this.header).toPromise().then(data => {
       success = data;
     }).catch(error => {
       errorMsg = error.error.message;
@@ -213,7 +218,7 @@ export class ArtistApiService {
 
     console.log(formData);
 
-    await this.http.post(this.sendDesignDraftURL, formData).toPromise().then(result => {
+    await this.http.post(this.sendDesignDraftURL, formData, this.header).toPromise().then(result => {
       success = result;
     }).catch(error => {
       err = true;

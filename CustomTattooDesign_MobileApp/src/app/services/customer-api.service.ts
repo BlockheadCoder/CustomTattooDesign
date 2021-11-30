@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Job } from '../model/job';
 import { Message } from '../model/message';
 import { DesignImage } from '../model/designImage';
@@ -15,6 +15,10 @@ export class CustomerApiService {
   private sendStringMessageURL = "http://142.55.32.86:50201/api/sendStringMessage";
   private getDesignImagesURL = "http://142.55.32.86:50201/api/getDesigns";
 
+  private headerData = new HttpHeaders({
+    'BEARER': 'CustomTattooBestTattooDesigns'
+  })
+  private header = {headers: this.headerData}
 
   constructor(private http: HttpClient) { }
 
@@ -57,9 +61,9 @@ export class CustomerApiService {
     if (designRequest.image5 != null) formData.append("image5", designRequest.image5, designRequest.image5.name);
     if (designRequest.image6 != null) formData.append("image6", designRequest.image6, designRequest.image6.name);
 
-    console.log(formData);
+    //console.log(formData);
 
-    await this.http.post(this.submitDesignRequestURL, formData).toPromise().then(result => {
+    await this.http.post(this.submitDesignRequestURL, formData, this.header).toPromise().then(result => {
       success = result;
     }).catch(error => {
       errorMsg = error.error.message;
@@ -89,7 +93,7 @@ export class CustomerApiService {
 
     var messages;
 
-    await this.http.post(this.fetchJobMessagesURL, requestBody).toPromise().then(data => {
+    await this.http.post(this.fetchJobMessagesURL, requestBody, this.header).toPromise().then(data => {
       messages = data;
     }).catch(error => {
       errorMsg = error.error.message;
@@ -118,7 +122,7 @@ export class CustomerApiService {
       "jobId": job.jobId
     }
 
-    await this.http.post(this.getDesignImagesURL, requestBody).toPromise().then(data => {
+    await this.http.post(this.getDesignImagesURL, requestBody, this.header).toPromise().then(data => {
       success = data;
     }).catch(error => {
       errorMsg = error.error.message;
@@ -149,7 +153,7 @@ export class CustomerApiService {
       "sessionToken": ""
     }
 
-    await this.http.post(this.sendStringMessageURL, requestBody).toPromise().then(data => {
+    await this.http.post(this.sendStringMessageURL, requestBody, this.header).toPromise().then(data => {
       success = data;
     }).catch(error => {
       errorMsg = error.error.message;
