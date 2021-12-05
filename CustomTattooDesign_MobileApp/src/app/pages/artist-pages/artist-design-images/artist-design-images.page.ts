@@ -34,8 +34,6 @@ export class ArtistDesignImagesPage implements OnInit {
     this.storage.get("ARTIST").then(
       artist => this.artist = artist
     );
-
-    console.log(this.job);
   }
 
   getImageSrcString(designImage : DesignImage) {

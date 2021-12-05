@@ -13,7 +13,7 @@ import { CustomerApiService } from 'src/app/services/customer-api.service';
 export class CustomerCodeEntryPage implements OnInit {
 
   errorMsg = "";
-  customerCode = "";
+  customerCode = "Ejj/RRBkk/7KlLOCoi8y3aFKrMoJAF4/xViQaob1"; //Ejj/RRBkk/7KlLOCoi8y3aFKrMoJAF4/xViQaob1
 
   constructor(private loginAPIService : LoginAPIService,
               private customerService : CustomerApiService,
@@ -37,11 +37,9 @@ export class CustomerCodeEntryPage implements OnInit {
       jobData => { 
         if (jobData != null || jobData["status"] == 500) {
           var job : Job = this.createJob(jobData);
-          console.log(jobData);
           this.customerService.setMessages(job);
           this.customerService.getDesignImages(job).then(diData => {
             if (diData != null || diData["status"] == 500) {
-              console.log(diData);
               this.customerService.setDesignImages(job, diData);
               this.storage.set("JOB", job).then(() => {
                 this.goCustomerLandingPage();
@@ -54,10 +52,8 @@ export class CustomerCodeEntryPage implements OnInit {
           this.errorMsg = "Incorrect Username or Password";
         }
       }
-    ).catch(error => { 
-      // add new errors here as they are created
+    ).catch(err => { 
       this.errorMsg = "Invalid Code."; 
-      console.log(error);
     });
   }
 
@@ -74,9 +70,9 @@ export class CustomerCodeEntryPage implements OnInit {
       "commission" : userData["commision"],
       "description" : userData["description"],
       "conversation" : userData["messages"],
-      "designImages" : []
+      "designImages" : [],
+      "artistName" : userData["artistFirstName"] + " " + userData["artistLastName"]
     }
-
     return job;
   }
 

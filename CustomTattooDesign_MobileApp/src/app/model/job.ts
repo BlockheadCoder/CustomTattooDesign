@@ -14,4 +14,5 @@ export interface Job {
     description : string;
     conversation : Message[];
     designImages : DesignImage[];
+    artistName: string; //only used on customer-pages to keep track of artist name
 }
