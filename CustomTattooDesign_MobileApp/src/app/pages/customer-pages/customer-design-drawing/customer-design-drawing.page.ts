@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonContent, Platform } from '@ionic/angular';
+import { AlertController, IonContent, NavController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { DesignImage } from 'src/app/model/designImage';
 import { Job } from 'src/app/model/job';
@@ -40,7 +40,9 @@ export class CustomerDesignDrawingPage implements OnInit {
   constructor(private router : Router,
               private plt : Platform,
               private storage : Storage,
-              private customerService : CustomerApiService) { 
+              private customerService : CustomerApiService,
+              private alertController : AlertController,
+              private navCtrl: NavController) { 
     if (this.router.getCurrentNavigation().extras.state) {
       this.designImage = this.router.getCurrentNavigation().extras.state.designImage;
     }
@@ -130,7 +132,29 @@ export class CustomerDesignDrawingPage implements OnInit {
     return "data:image/" + mimeType + ";base64," + designImage.image;
   }
 
-  test() {
+  
+  async confirmUploadImage() {
+    const alert = await this.alertController.create({
+      header: "Please Confirm",
+      message: "Would you like to upload this image edit for your designer to see?",
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => { /* do nothing */ }
+        },
+        {
+          text: 'OK',
+          handler: () => { 
+            this.uploadImage();
+            this.navCtrl.back();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  uploadImage() {
     var editName = this.designImage.name.split(".")[0] + "_edit.jpg"
     console.log(editName);
     

@@ -71,7 +71,6 @@ export class ClaimedJobsPage implements OnInit {
         console.log(err)
       })
     );
-    console.log(this.inProgressJobs)
   }
 
   viewJobDetails(job) {

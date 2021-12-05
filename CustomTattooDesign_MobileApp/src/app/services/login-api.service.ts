@@ -33,7 +33,6 @@ export class LoginAPIService {
 
     await this.http.post(this.apiURL, this.bodyData, this.header).toPromise().then(data => {
       success = data;
-      console.log(data);
       this.authenticationState.next(true);
     }).catch(error => {
       errorMsg = error.error.message;
