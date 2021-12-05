@@ -51,6 +51,7 @@ export class ArtistDesignImagesPage implements OnInit {
       this.alertMessage("Error", "Please select a design draft before continuing.");
       return;
     }
+    console.log(this.designDraftImage);
     this.artistService.submitDesignDraft(this.artist, this.job, this.designDraftImage).then((result) => {
       if (result) {
         this.refreshDesignImages();

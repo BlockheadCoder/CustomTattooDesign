@@ -33,6 +33,7 @@ export class LoginAPIService {
 
     await this.http.post(this.apiURL, this.bodyData, this.header).toPromise().then(data => {
       success = data;
+      console.log(data);
       this.authenticationState.next(true);
     }).catch(error => {
       errorMsg = error.error.message;
@@ -52,6 +53,10 @@ export class LoginAPIService {
     return this.authenticationState.value;
   }
 
+  unAuthenticateArtist() {
+    this.authenticationState.next(false);
+  }
+
 
 
   /* customer login */
@@ -59,7 +64,6 @@ export class LoginAPIService {
 
   private getJobAsCustomerURL = "http://142.55.32.86:50201/api/getJobAsCustomer";
   private customerBodyData;
-  private customerHeaderData;
 
   async customerLogin(jobAccessToken : string) {
     var success;
@@ -90,5 +94,9 @@ export class LoginAPIService {
 
   isCustomerAuthenticated() {
     return this.customerAuthenticationState.value;
+  }
+
+  unAuthenticateCustomer() {
+    this.customerAuthenticationState.next(false);
   }
 }

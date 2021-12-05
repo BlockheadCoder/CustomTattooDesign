@@ -1,13 +1,18 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Designer Dashboard</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="logout()">Logout</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-button expand="block" (click)="goUnclaimed()">Unclaimed Jobs</ion-button> <br>
-  <ion-button expand="block" (click)="goClaimed()">Your Jobs</ion-button> <br>
-  <ion-button expand="block" (click)="goConversations()">Your Messages</ion-button> <br>
+  <div class="ion-padding">
+    <ion-button expand="block" (click)="goUnclaimed()">Unclaimed Jobs</ion-button> <br>
+    <ion-button expand="block" (click)="goClaimed()">Your Jobs</ion-button> <br>
+    <ion-button expand="block" (click)="goConversations()">Your Messages</ion-button> <br>
+  </div>
 
   <ion-card color="success">
     <ion-card-header> 

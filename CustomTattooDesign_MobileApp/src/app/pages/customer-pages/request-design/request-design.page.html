@@ -11,7 +11,7 @@
   <ion-progress-bar [value]="completionAmount"></ion-progress-bar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
   <app-dr-personal-info [sentDetails]="personalDetails" *ngIf="currentSection == 0"></app-dr-personal-info>
   <app-dr-tattoo-details [sentDetails]="tattooDetails" *ngIf="currentSection == 1"></app-dr-tattoo-details>
   <app-dr-skeleton [sentDetails]="skeletonDetails" *ngIf="currentSection == 2"></app-dr-skeleton>

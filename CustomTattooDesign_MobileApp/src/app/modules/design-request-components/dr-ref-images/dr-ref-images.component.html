@@ -1,8 +1,1 @@
-<!-- 
-<form #userPost="ngForm" (ngSubmit)="onSubmit(userPost)">
-    <input type="file" name="image1" (change)="uploadFile($event.target.files)" ngModel />
-    <input type="submit" />
-</form>
--->
-
 <input type="file" name="files" (change)="updateFiles($event.target)" multiple ngDefaultControl />
