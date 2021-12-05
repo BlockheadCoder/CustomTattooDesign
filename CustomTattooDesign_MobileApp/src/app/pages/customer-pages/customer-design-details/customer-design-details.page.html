@@ -12,7 +12,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
   <ion-grid>
     <ion-row>
       <ion-col id="title">{{job.title}}</ion-col>
@@ -30,7 +30,7 @@
     <ion-row>
       <ion-col class="value">{{job.tattooType}}</ion-col>
       <ion-col *ngIf="job.status == 'Needs Designer'" class="value">No artist assigned yet.</ion-col>
-      <ion-col *ngIf="job.status != 'Needs Designer'" class="value">ARTIST_NAME</ion-col>
+      <ion-col *ngIf="job.status != 'Needs Designer'" class="value">{{job.artistName}}</ion-col>
     </ion-row> <br>
 
     <ion-row>

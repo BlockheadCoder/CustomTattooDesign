@@ -5,7 +5,7 @@ import { Message } from 'src/app/model/message';
 import { ArtistApiService } from 'src/app/services/artist-api.service';
 import { Storage } from '@ionic/storage-angular';
 import { Artist } from 'src/app/model/artist';
-import { ActionSheetController, LoadingController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 
 
 @Component({
@@ -23,7 +23,6 @@ export class ArtistConversationsPage implements OnInit {
   constructor(private artistService : ArtistApiService, 
               private storage : Storage,
               private router : Router,
-              public actionSheetController: ActionSheetController,
               public loadingController: LoadingController) { }
 
   ngOnInit() {
@@ -33,65 +32,93 @@ export class ArtistConversationsPage implements OnInit {
     this.getConversations();
   }
 
-  /* retrieves all jobs and their associated conversations from our back-end */
+  ngAfterViewChecked() {
+    if (this.loaded) {
+      this.jobs.sort(this.compareBylastSentDateTime);
+    }
+  }
+
   async getConversations() {
     const loading = await this.loadingController.create({
       message: 'Please wait...',
     });
     await loading.present();
 
-    var tempJobs : Job[] = [];
+    this.artistService.getClaimedJobs(this.artist).then(data => {
+      let jobs = data as Array<Object>;
+      var tempJob : Job;
+      var tempMsg : Message;
+      var tempMsgArr : []
 
-    this.storage.get("ARTIST").then(artist =>
-      this.artistService.getClaimedJobs(artist).then(data => {
-        let jobs = data as Array<Object>;
-        var tempJob : Job;
+      jobs.forEach(j => {
+        tempJob = {
+          jobId: j["jobId"],
+          status: j["state"],
+          title: j["title"],
+          customerName: j["customerName"],
+          tattooLocation: j["tattooLocation"],
+          tattooType: j["tattooType"],
+          tattooStyle: j["tattooStyle"],
+          color: j["color"],
+          commission: Math.round(j["commission"] * 100) / 100,
+          description: j["description"],
+          conversation: [],
+          designImages: [],
+          artistName: ""
+        }
+        tempMsgArr = j["messages"]
 
-        jobs.forEach(j => {
-          tempJob = {
-            jobId: j["jobId"],
-            status: j["state"],
-            title: j["title"],
-            customerName: j["customerName"],
-            tattooLocation: j["tattooLocation"],
-            tattooType: j["tattooType"],
-            tattooStyle: j["tattooStyle"],
-            color: j["color"],
-            commission: Math.round(j["commission"] * 100) / 100,
-            description: j["description"],
-            conversation: [],
-            designImages: []
-          }
-          tempJobs.push(tempJob);
+        tempMsgArr.forEach(m => {
+          tempMsg = {
+            id: m["messageId"],
+            design_id: m["designId"],
+            body: m["body"],
+            created_at: new Date(m["createdAt"]),
+            designer_id: m["designerId"],
+            comment_picture: null,
+            read: m["read"]
+            }
+          tempJob.conversation.push(tempMsg);
         })
-      }).catch(err => console.log(err)).then(() => {
-        tempJobs.forEach(job => {
-          this.artistService.getJobMessages(job).then(data => {
-            let messages = data as Array<Object>;
-            var tempMsg : Message;
+        this.jobs.push(tempJob);
+      })
+      this.jobs.sort(this.compareBylastSentDateTime);
+      loading.dismiss();
+      this.loaded = true;
+    }).catch(err => {
+      console.log(err);
+    })
+  }
 
-            messages.forEach(m => {
-              tempMsg = {
-                id: m["messageId"],
-                design_id: m["designId"],
-                body: m["body"],
-                created_at: new Date(m["createdAt"]),
-                designer_id: m["designerId"],
-                comment_picture: null,
-                read: m["read"]
-              }
-            job.conversation.push(tempMsg);
-          })
-          tempJobs.sort(this.compareBylastSentDateTime); 
-        }).catch(err => console.log(err));
-      });
-    }).then(() => {
-      setTimeout(() => { //continue showing loading-indicator as list finalizes
+  async refreshConversations() {
+    const loading = await this.loadingController.create({
+      message: 'Please wait...',
+    });
+    await loading.present();
+
+    this.jobs.forEach(job => {
+      this.artistService.getJobMessages(job).then(data => {
+        let messages = data as Array<Object>;
+        var tempMsg : Message;
+
+        messages.forEach(m => {
+          tempMsg = {
+            id: m["messageId"],
+            design_id: m["designId"],
+            body: m["body"],
+            created_at: new Date(m["createdAt"]),
+            designer_id: m["designerId"],
+            comment_picture: null,
+            read: m["read"]
+          }
+          job.conversation.push(tempMsg);
+        })
+        this.jobs.sort(this.compareBylastSentDateTime); 
         loading.dismiss();
-        this.jobs = tempJobs;
-        this.loaded = true;
-      }, 750);
-    }));
+      }).catch(err => {
+        console.log(err)
+      });
+    });
   }
 
   viewConversation(job : Job) {
@@ -111,32 +138,6 @@ export class ArtistConversationsPage implements OnInit {
       }
     }
     return msg;
-  }
-
-  async presentDesignsOptionSheet(event) {
-    event.stopPropagation(); //prevents ion-card's (click) event from firing as well
-
-    //need some sort of 'for each design, create button'
-
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Designs',
-      buttons: [{
-        text: 'Add',
-        icon: 'add-circle-outline',
-        handler: () => {
-          console.log('Need Cordova - Saving Until the End');
-        }
-      }, {
-        text: 'Cancel',
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {
-          console.log('Cancel clicked');
-        }
-      }]
-    });
-    await actionSheet.present();
-    await actionSheet.onDidDismiss();
   }
 
   compareBylastSentDateTime = (a : Job, b : Job) => {

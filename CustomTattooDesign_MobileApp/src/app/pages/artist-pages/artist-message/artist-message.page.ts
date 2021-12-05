@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { Job } from 'src/app/model/job';
 import { ArtistApiService } from 'src/app/services/artist-api.service';
 import { Storage } from '@ionic/storage-angular';
@@ -18,6 +18,7 @@ export class ArtistMessagePage implements OnInit {
   job : Job;
   artist : Artist;
   current_message : string = '';
+  sendData : NavigationExtras;
 
   constructor(private router : Router, 
               private artistService : ArtistApiService,
@@ -125,4 +126,20 @@ export class ArtistMessagePage implements OnInit {
     await actionSheet.present();
     await actionSheet.onDidDismiss();
   }
+
+  goViewDesignImages() {
+    this.artistService.getDesignImages(this.job).then(diData => {
+      if (diData != null || diData["status"] == 500) {
+        this.artistService.setDesignImages(this.job, diData);
+        
+        this.sendData = { state: { job : this.job } };
+        this.router.navigate(['artist-design-images'], this.sendData).catch(err => 
+          console.log(err)
+        );
+      } else {
+        console.log("design retrieval failed");
+        console.log(diData);
+      }
+    }
+  )};
 }
