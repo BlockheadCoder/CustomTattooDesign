@@ -14,7 +14,7 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-title style="text-align: center;" size="small">{{job.title}}</ion-title>
+    <ion-title size="small">{{job.title}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -22,17 +22,17 @@
   <div #messages_holder style="overflow-y: scroll; height: xyz;">
     <div *ngFor="let msg of job.conversation">
       <ion-card class="message" class="customer_msg" *ngIf="msg.designer_id == 0">
-        <ion-label style="font-size: 11px; float:right; padding-top: 6px; padding-right: 6px;">{{msg.created_at.toLocaleString()}}</ion-label>
+        <ion-label class="customer_body">{{msg.created_at.toLocaleString()}}</ion-label>
         <ion-card-content>
-          <ion-label class="message_content">{{msg.body}}</ion-label>
+          <ion-label class="message_content" class="customer_body">{{msg.body}}</ion-label>
         </ion-card-content>
       </ion-card>
 
       
-      <ion-card class="message" class="artist_msg" *ngIf="msg.designer_id != 0" color="success">
-        <ion-label style="font-size: 11px; float:left; padding-top: 6px; padding-left: 6px;">{{msg.created_at.toLocaleString()}}</ion-label>
+      <ion-card class="message" class="artist_msg" *ngIf="msg.designer_id != 0">
+        <ion-label class="artist_body">{{msg.created_at.toLocaleString()}}</ion-label>
         <ion-card-content>
-          <ion-label class="message_content">{{msg.body}}</ion-label>
+          <ion-label class="message_content" class="artist_body">{{msg.body}}</ion-label>
         </ion-card-content>
       </ion-card>
     </div>

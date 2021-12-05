@@ -51,7 +51,7 @@
       <ion-col class="value" *ngIf="!job.color">No</ion-col>
     </ion-row>
 
-    <hr color="white">
+    <hr>
 
     <ion-row>
       <ion-col>Instructions</ion-col>
@@ -61,10 +61,10 @@
       <ion-col class="value">{{job.description}}</ion-col>
     </ion-row>
 
-    <hr color="white">
+    <hr>
   </ion-grid>
 
   <ion-button expand="block" (click)="goViewDesignImages()">View Design Images</ion-button>
 
-  <ion-button *ngIf="job.status == 'Needs Designer'" style="float: right" (click)="claimJob(job)">Claim</ion-button>
+  <ion-button expand="block" *ngIf="job.status == 'Needs Designer'" (click)="claimJob(job)">Claim</ion-button>
 </ion-content>

@@ -1,14 +1,14 @@
 <span>First Name</span>
-<ion-input [(ngModel)]="personalDetails.firstName" ngDefaultControl></ion-input>
+<ion-input placeholder="John" [(ngModel)]="personalDetails.firstName" ngDefaultControl></ion-input>
 
 <span>Last Name</span>
-<ion-input [(ngModel)]="personalDetails.lastName" ngDefaultControl></ion-input>
+<ion-input placeholder="Smith" [(ngModel)]="personalDetails.lastName" ngDefaultControl></ion-input>
 
 <span>Email Address</span>
-<ion-input [(ngModel)]="personalDetails.emailAddress" ngDefaultControl type="email"></ion-input>
+<ion-input placeholder="johnsmith@email.com" [(ngModel)]="personalDetails.emailAddress" ngDefaultControl type="email"></ion-input>
 
 <span>Confirm Email Address</span>
-<ion-input [(ngModel)]="personalDetails.confirmEmailAddress" ngDefaultControl type="email"></ion-input>
+<ion-input placeholder="johnsmith@email.com" [(ngModel)]="personalDetails.confirmEmailAddress" ngDefaultControl type="email"></ion-input>
 
 <ion-radio-group [(ngModel)]="personalDetails.gender" ngDefaultControl>
     <ion-list-header>
