@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, IonContent } from '@ionic/angular';
+import { ActionSheetController, AlertController, IonContent } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { Job } from 'src/app/model/job';
 import { Message } from 'src/app/model/message';
@@ -26,13 +26,13 @@ export class CustomerMessagePage implements OnInit {
     "commission" : 0.0,
     "description" : "",
     "conversation" : [],
-    "designImages" : [],
-    "artistName" : ""
+    "designImages" : []
   };
 
   constructor(private router : Router, 
     private storage : Storage,
     private customerService : CustomerApiService,
+    public actionSheetController: ActionSheetController,
     public alertController: AlertController) { 
       
       this.storage.get("JOB").then(job => {
@@ -90,7 +90,4 @@ export class CustomerMessagePage implements OnInit {
     this.scrollToBottom();
   }
 
-  goDesignImages() {
-    this.router.navigateByUrl('/customer-design-images');
-  }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CustomerApiService } from 'src/app/services/customer-api.service';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +9,10 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
 
-  constructor(private router : Router) { }
+  constructor(private router : Router, private cas : CustomerApiService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
   goArtistLogin() {
     this.router.navigateByUrl("/artist-login");

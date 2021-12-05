@@ -54,6 +54,7 @@ export class ArtistApiService {
    * Returns a promise object containing an array of the artist's jobs from an API call
    */
   async getClaimedJobs(artist : Artist) {
+
     var jobs;
 
     var err = false;
@@ -67,7 +68,6 @@ export class ArtistApiService {
 
     await this.http.post(this.getArtistJobsURL, requestBody, this.header).toPromise().then(data => {
       jobs = data;
-      console.log(data);
     }).catch(error => {
       errorMsg = error.error.message;
       err = true;
@@ -147,6 +147,8 @@ export class ArtistApiService {
    * Returns a promise object containing an array of an artist's conversations
    */
   async getJobMessages(job : Job) {
+    var success;
+
     var err = false;
     var errorMsg = "";
 
@@ -213,6 +215,8 @@ export class ArtistApiService {
     formData.append("image", image, image.name);
     formData.append("jobId", job.jobId);
     formData.append("sessionToken", artist.sessionToken);
+
+    console.log(formData);
 
     await this.http.post(this.sendDesignDraftURL, formData, this.header).toPromise().then(result => {
       success = result;

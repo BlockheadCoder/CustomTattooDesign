@@ -21,8 +21,7 @@ export class CustomerDesignDetailsPage implements OnInit {
     commission: 0,
     description: "",
     conversation: [],
-    designImages: [],
-    artistName: ""
+    designImages: []
   };
 
   constructor(private router : Router, 

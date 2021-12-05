@@ -4,16 +4,11 @@
     <ion-buttons slot="start">
       <ion-back-button text="Back"></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button (click)="confirmUploadImage()">
-        <ion-icon slot="icon-only" name="chevron-up-circle-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding no-bounce>
-  <div #fixedContainer slot="fixed">
+  <div #fixedContainer ion-fixed>
     <ion-row>
       <ion-col *ngFor="let color of colors" [style.background]="color" class="color-block" tappable (click)="selectColor(color)"> </ion-col>
     </ion-row>

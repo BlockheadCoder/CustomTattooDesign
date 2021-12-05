@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 
 import { Artist } from '../../../model/artist';
-import { LoginAPIService } from 'src/app/services/login-api.service';
 
 @Component({
   selector: 'app-artist-landing',
@@ -35,21 +34,12 @@ export class ArtistLandingPage implements OnInit {
     }
   };
 
-  constructor(private router : Router, 
-              private storage : Storage, 
-              private loginService : LoginAPIService) { }
+  constructor(private router : Router, private storage : Storage) { }
 
   ngOnInit() {
     this.storage.get("ARTIST").then(
       artist => this.artist = artist
     );
-  }
-
-  logout() {
-    this.storage.remove("ARTIST").then(() => {
-      this.loginService.unAuthenticateArtist();
-      this.router.navigateByUrl("/home")
-    })
   }
 
   goUnclaimed() {

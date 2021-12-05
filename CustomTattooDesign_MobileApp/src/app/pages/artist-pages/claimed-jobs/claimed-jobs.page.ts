@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { Job } from 'src/app/model/job';
 import { ArtistApiService } from 'src/app/services/artist-api.service';
@@ -11,8 +10,8 @@ import { ArtistApiService } from 'src/app/services/artist-api.service';
   styleUrls: ['./claimed-jobs.page.scss'],
 })
 export class ClaimedJobsPage implements OnInit {
+
   segmentValue = "inProgress";
-  loaded = false;
 
   inProgressJobs : Job[] = [];
   approvedJobs : Job[] = [];
@@ -22,19 +21,13 @@ export class ClaimedJobsPage implements OnInit {
 
   constructor(private artistService : ArtistApiService, 
               private storage : Storage,
-              private router : Router,
-              public loadingController: LoadingController) { }
+              private router : Router) { }
 
   ngOnInit() {
     this.getClaimedJobs();
   }
 
   async getClaimedJobs() {
-    const loading = await this.loadingController.create({
-      message: 'Please wait...',
-    });
-    await loading.present();
-
     this.storage.get("ARTIST").then(artist =>
       this.artistService.getClaimedJobs(artist).then(data => {
         let jobs = data as Array<Object>;
@@ -52,9 +45,8 @@ export class ClaimedJobsPage implements OnInit {
             color: j["color"],
             commission: Math.round(j["commission"] * 100) / 100,
             description: j["description"],
-            conversation: [], //not necessary to set here
-            designImages: [],
-            artistName: ""
+            conversation: [],
+            designImages: []
           }
           
           if (["draft", "claimed", "phase_one", "phase_two"].includes(tempJob.status)) {
@@ -65,11 +57,7 @@ export class ClaimedJobsPage implements OnInit {
             this.completedJobs.push(tempJob);
           }
         })
-        loading.dismiss();
-        this.loaded = true;
-      }).catch(err => {
-        console.log(err)
-      })
+      }).catch(err => console.log(err))
     );
   }
 

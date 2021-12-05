@@ -1,13 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Customer Landing</ion-title>
-    <ion-buttons slot="start">
-      <ion-button (click)="logout()">Logout</ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
   <h1>Welcome {{job.customerName}}!</h1><br /><br />
 
   <ion-button *ngIf="job.status != 'queued'" expand="block" (click)="goConversation()">Your Conversation</ion-button> <br>

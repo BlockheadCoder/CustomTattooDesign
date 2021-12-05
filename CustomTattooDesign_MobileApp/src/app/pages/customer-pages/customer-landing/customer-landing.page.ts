@@ -2,7 +2,6 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 import { Job } from 'src/app/model/job';
-import { LoginAPIService } from 'src/app/services/login-api.service';
 
 @Component({
   selector: 'app-customer-landing',
@@ -24,25 +23,22 @@ export class CustomerLandingPage implements OnInit {
     "commission" : 0.0,
     "description" : "",
     "conversation" : [],
-    "designImages" : [],
-    "artistName": ""
+    "designImages" : []
   };
 
   constructor(private storage : Storage,
-              private router : Router,
-              private loginService : LoginAPIService) { }
+              private router : Router) { }
 
   ngOnInit() {
     this.storage.get("JOB").then(job => {
       this.job = job;
     });
-  }
 
-  logout() {
-    this.storage.remove("JOB").then(() => {
-      this.loginService.unAuthenticateCustomer();
-      this.router.navigateByUrl("/home")
-    })
+    /*
+    var img = new Image();
+    img.src = "src/app/assets/download.jpeg";
+    this.img_test.nativeElement.innerHTML = img;
+    */
   }
 
   goConversation() {

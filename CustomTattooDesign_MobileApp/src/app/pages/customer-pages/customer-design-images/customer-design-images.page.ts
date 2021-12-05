@@ -23,8 +23,7 @@ export class CustomerDesignImagesPage implements OnInit {
     "commission" : 0.0,
     "description" : "",
     "conversation" : [],
-    "designImages" : [],
-    "artistName": ""
+    "designImages" : []
   };
   sendData : NavigationExtras;
 
@@ -35,7 +34,6 @@ export class CustomerDesignImagesPage implements OnInit {
   ngOnInit() {
     this.storage.get("JOB").then(job => {
       this.job = job;
-      this.refreshDesignImages();
     }).catch(err => {
       console.log(err);
     });

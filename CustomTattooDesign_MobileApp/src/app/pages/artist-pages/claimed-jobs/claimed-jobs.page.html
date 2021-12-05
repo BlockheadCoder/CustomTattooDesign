@@ -24,7 +24,7 @@
   </ion-segment>
 
   <div *ngIf="segmentValue == 'inProgress'">
-    <ion-card *ngIf="inProgressJobs.length == 0 && loaded" class="ion-text-center">
+    <ion-card *ngIf="inProgressJobs.length == 0" class="ion-text-center">
       <ion-card-header>
         <ion-card-title>You currently have no In Progress jobs</ion-card-title><br>
       </ion-card-header>
@@ -61,7 +61,7 @@
   </div>
 
   <div *ngIf="segmentValue == 'approved'">
-    <ion-card *ngIf="approvedJobs.length == 0 && loaded" class="ion-text-center">
+    <ion-card *ngIf="approvedJobs.length == 0" class="ion-text-center">
       <ion-card-header>
         <ion-card-title>You currently have no Approved jobs</ion-card-title><br>
       </ion-card-header>
@@ -98,7 +98,7 @@
   </div>
 
   <div *ngIf="segmentValue == 'completed'">
-    <ion-card *ngIf="completedJobs.length == 0 && loaded" class="ion-text-center">
+    <ion-card *ngIf="completedJobs.length == 0" class="ion-text-center">
       <ion-card-header>
         <ion-card-title>You currently have no Completed jobs</ion-card-title><br>
       </ion-card-header>
