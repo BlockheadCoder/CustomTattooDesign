@@ -1,11 +1,7 @@
-.artist_msg {
-  text-align: right;
-}
-
-.footer {
+.footer, #send {
   height: auto;
 }
 
-.message_content {
-  white-space: pre-line;
+#send {
+  width: 15%;
 }

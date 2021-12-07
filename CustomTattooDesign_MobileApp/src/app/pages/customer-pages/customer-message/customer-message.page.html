@@ -40,7 +40,7 @@
 
 <ion-footer class="footer">
   <ion-item>
-    <ion-button slot="end" (click)="sendMessage()">
+    <ion-button id="send" slot="end" (click)="sendMessage()">
       <ion-icon name="paper-plane-outline"></ion-icon>
     </ion-button>
     <ion-textarea [(ngModel)]='current_message' placeholder="Message"></ion-textarea>
