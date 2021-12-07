@@ -82,6 +82,11 @@ ion-toolbar {
     }
 }
 
+.receiver_msg {
+    color: white;
+    text-align: left;
+}
+
 .receiver_body {
     color: var(--ion-color-flashy);
     white-space: pre-line;

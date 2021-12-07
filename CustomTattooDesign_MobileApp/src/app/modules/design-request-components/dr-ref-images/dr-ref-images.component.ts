@@ -26,7 +26,7 @@ export class DrRefImagesComponent implements OnInit {
       this.referenceImages.pop();
     }
 
-    if (target.files.length >= 6) {
+    if (target.files.length > 6) {
       errorMsg = "Please limit the amout of reference images to six or less.";
     } else {
       for (let file of target.files) {
@@ -40,11 +40,9 @@ export class DrRefImagesComponent implements OnInit {
     
     if (errorMsg != "") {
       target.value = "";
-      /*
       while (this.referenceImages.length > 0) {
         this.referenceImages.pop();
       }
-      */
 
       this.alertError(errorMsg);
     } 

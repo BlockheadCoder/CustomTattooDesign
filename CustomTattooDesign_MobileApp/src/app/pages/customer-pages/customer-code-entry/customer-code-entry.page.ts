@@ -13,7 +13,7 @@ import { CustomerApiService } from 'src/app/services/customer-api.service';
 export class CustomerCodeEntryPage implements OnInit {
 
   errorMsg = "";
-  customerCode = "Ejj/RRBkk/7KlLOCoi8y3aFKrMoJAF4/xViQaob1"; //Ejj/RRBkk/7KlLOCoi8y3aFKrMoJAF4/xViQaob1
+  customerCode = "";
 
   constructor(private loginAPIService : LoginAPIService,
               private customerService : CustomerApiService,

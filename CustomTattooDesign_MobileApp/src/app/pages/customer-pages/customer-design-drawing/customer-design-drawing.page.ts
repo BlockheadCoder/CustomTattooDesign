@@ -110,13 +110,15 @@ export class CustomerDesignDrawingPage implements OnInit {
 
   resetCanvas() {
     let ctx = this.canvasElement.getContext('2d');
-    ctx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height);
-    this.drawDesign();
+    ctx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height)
+    this.drawDesign()
   }
 
   /* inserts the selected design image onto the blank canvas so it can be drawn over */
   drawDesign() {
     let ctx = this.canvasElement.getContext('2d');
+    this.img = new Image();
+    this.img.src = this.getImageSrcString(this.designImage);
 
     this.img.onload = () => {
       // Math.min stretches the image horizontally to fit if it would be too tall otherwise
@@ -156,11 +158,10 @@ export class CustomerDesignDrawingPage implements OnInit {
 
   uploadImage() {
     var editName = this.designImage.name.split(".")[0] + "_edit.jpg"
-    console.log(editName);
     
     this.canvasElement.toBlob((blob) => {
       let file = new File([blob], editName, { type: "image/jpeg" })
-      this.customerService.submitDesignEdit(this.job, file).then(success => console.log(success))
+      this.customerService.submitDesignEdit(this.job, file).then(success => {/* console.log(success) */})
     }, 'image/jpeg');
   }
 }

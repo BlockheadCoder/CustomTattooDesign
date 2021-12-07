@@ -67,7 +67,6 @@ export class ArtistApiService {
 
     await this.http.post(this.getArtistJobsURL, requestBody, this.header).toPromise().then(data => {
       jobs = data;
-      console.log(data);
     }).catch(error => {
       errorMsg = error.error.message;
       err = true;
