@@ -21,18 +21,18 @@
 <ion-content>
   <div #messages_holder style="overflow-y: scroll; height: xyz;">
     <div *ngFor="let msg of job.conversation">
-      <ion-card class="message" class="customer_msg" *ngIf="msg.designer_id == 0">
-        <ion-label class="customer_body">{{msg.created_at.toLocaleString()}}</ion-label>
+      <ion-card class="message" class="receiver_msg" *ngIf="msg.designer_id == 0">
+        <ion-label class="receiver_time">{{msg.created_at.toLocaleString()}}</ion-label>
         <ion-card-content>
-          <ion-label class="message_content" class="customer_body">{{msg.body}}</ion-label>
+          <ion-label class="message_content" class="receiver_body">{{msg.body}}</ion-label>
         </ion-card-content>
       </ion-card>
 
       
-      <ion-card class="message" class="artist_msg" *ngIf="msg.designer_id != 0">
-        <ion-label class="artist_body">{{msg.created_at.toLocaleString()}}</ion-label>
+      <ion-card class="message" class="sender_msg" *ngIf="msg.designer_id != 0">
+        <ion-label class="sender_time">{{msg.created_at.toLocaleString()}}</ion-label>
         <ion-card-content>
-          <ion-label class="message_content" class="artist_body">{{msg.body}}</ion-label>
+          <ion-label class="message_content" class="sender_body">{{msg.body}}</ion-label>
         </ion-card-content>
       </ion-card>
     </div>

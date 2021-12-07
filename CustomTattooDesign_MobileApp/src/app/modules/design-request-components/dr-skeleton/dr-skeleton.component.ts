@@ -28,7 +28,7 @@ export class DrSkeletonComponent implements OnInit {
         var e = document.getElementById(bodyPart);
         e.setAttribute("class", "active");
       } catch (e) {
-        console.log(e.message);
+        //console.log(e.message);
       }
     }
   }

@@ -146,7 +146,6 @@ export class RequestDesignPage implements OnInit {
   goPrev() {
     this.currentSection = Math.max(0, this.currentSection - 1);
     this.completionAmount = (this.currentSection / this.SECTION_MAX);
-    console.log(this.referenceImages);
   }
 
   goNext() {
@@ -245,7 +244,6 @@ export class RequestDesignPage implements OnInit {
   }
 
   async alertAction(result) {
-
     console.log(result);
     var header = "Design Request Submission Failed"
     var message = "You were unable to submit the design request. Please try again later."

@@ -30,7 +30,7 @@ export class JobDetailsPage implements OnInit {
 
   claimJob(job : Job) {
     this.storage.get("ARTIST").then(artist => {
-      this.artistService.claimJob(artist, job.jobId).then(result => {
+      this.artistService.claimJob(artist, job.jobId).then(result => { 
         this.alertAction(result as boolean)
       })
     });
