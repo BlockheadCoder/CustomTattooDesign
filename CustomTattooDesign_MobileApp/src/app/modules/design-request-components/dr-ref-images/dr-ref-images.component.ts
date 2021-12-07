@@ -14,28 +14,17 @@ export class DrRefImagesComponent implements OnInit {
   FILE_MAX = 6;
   FILE_SIZE_MAX = 6291456; //6MB in Bytes
 
-  //image1 : File; //temp
-
   constructor(private customerApiService : CustomerApiService, private alertController : AlertController) { }
 
   ngOnInit() {
     this.referenceImages = this.sentDetails;
   }
-
-  /*
-  onSubmit() {
-    this.customerApiService.testFormSubmit(this.image1);
-  }
-
-  uploadFile(fileList : FileList) {
-    if (fileList.length > 0) {
-      this.image1 = fileList[0];
-    }
-  }
-  */
   
   updateFiles(target) {
     var errorMsg = "";
+    while (this.referenceImages.length > 0) {
+      this.referenceImages.pop();
+    }
 
     if (target.files.length >= 6) {
       errorMsg = "Please limit the amout of reference images to six or less.";
@@ -51,14 +40,16 @@ export class DrRefImagesComponent implements OnInit {
     
     if (errorMsg != "") {
       target.value = "";
+      /*
       while (this.referenceImages.length > 0) {
         this.referenceImages.pop();
       }
+      */
 
       this.alertError(errorMsg);
     } 
 
-    console.log(this.referenceImages);
+    //console.log(this.referenceImages);
   }
 
   async alertError(message) {

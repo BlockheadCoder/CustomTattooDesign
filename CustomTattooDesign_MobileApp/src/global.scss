@@ -82,30 +82,35 @@ ion-toolbar {
     }
 }
 
-ion-label.customer_msg {
+.receiver_body {
+    color: var(--ion-color-flashy);
+    white-space: pre-line;
+}
+
+.receiver_time {
+    color: var(--ion-color-flashy);
     font-size: 11px; 
-    float:right; 
+    float: right; 
     padding-top: 6px; 
     padding-right: 6px;
 }
 
-.customer_body {
-    color: var(--ion-color-flashy);
-}
-
-ion-card.artist_msg {
+.sender_msg {
     --background: var(--ion-color-flashy);
+    text-align: right;
 }
 
-ion-label.artist_msg {
+.sender_body {
+    color: white;
+    white-space: pre-line;
+}
+
+.sender_time {
+    color: white;
     font-size: 11px; 
-    float:left; 
+    float: left; 
     padding-top: 6px; 
     padding-left: 6px;
-}
-
-.artist_body {
-    color: white;
 }
 
 span {
