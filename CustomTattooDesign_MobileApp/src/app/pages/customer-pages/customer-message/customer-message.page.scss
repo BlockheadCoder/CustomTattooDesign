@@ -1,16 +1,15 @@
-//.message {}
-
 .customer_msg {
-    text-align: right;
-  }
+  text-align: right;
+}
   
-  
-  //.customer_msg {}
-  
-  .footer {
-    height: auto;
-  }
-  
-  .message_content {
-    white-space: pre-line;
-  }
+.footer, #send {
+  height: auto;
+}
+
+#send {
+  width: 15%;
+}
+
+.message_content {
+  white-space: pre-line;
+}

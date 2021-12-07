@@ -126,6 +126,15 @@ ion-alert {
     }
 }
 
+input[type=file] {
+    color: black;
+}
+
+input[type=file]::file-selector-button {
+    background-color: var(--ion-color-main);
+    border: none;
+}
+
 :root {
     --ion-color-main: #5bc0de;
     --ion-color-main-contrast: #ffffff;

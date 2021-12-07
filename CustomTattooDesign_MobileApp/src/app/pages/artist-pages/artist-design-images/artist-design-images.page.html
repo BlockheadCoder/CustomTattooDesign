@@ -10,8 +10,8 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-toolbar *ngIf="job.status != 'Needs Designer'">
-    <input type="file" name="files" (change)="updateFiles($event.target)" ngDefaultControl />
+  <ion-toolbar id="img_upload" *ngIf="job.status != 'Needs Designer'">
+    <input id="img" type="file" name="files" (change)="updateFiles($event.target)" ngDefaultControl />
     <ion-button expand="block" (click)="submitDesignDraftImage()">Upload Design Draft</ion-button>
   </ion-toolbar>
 </ion-header>
